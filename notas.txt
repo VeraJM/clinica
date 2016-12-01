@@ -1,0 +1,165 @@
+1- ROL:
+  - Lo mismo que el tp pasado.
+  - 3 roles: Afiliado, Administrativo, Profesional.
+  - Agregar y eliminar funcionalidades.
+  - Baja lógica. No se permite asignar un rol inhabilitado. Al inhabilitarse el rol,
+    se debe desaginar a todos los usuarios
+  - Cuando vuelve a habilitarse, no se recuperan las viejas asignaciones.
+  - Para elegir cual rol modificar, se muestran todos en una lista.
+
+2- Login:
+  - Mismo que el tp pasado.
+  - Si tiene más de un rol al logearse, da a elegir cual.
+  - El user no debe ver las funcionalidades que no puede acceder.
+    (esto no está hecho asi en el anterior porque habia usado menus, usar botones esta vez)
+  - Todos los user pueden usar el login. No recuerdo como estaba esto en las
+  - Intentos Fallidos:3 => deshabilitado.
+
+  3- Usuario:
+    - NO SE HACE
+    - 1 user admin: {user: admin, pass: w23e}
+    - resto de user crearlos nosotros.
+    - encriptacion sha256
+
+  4- Afiliados:
+    - Datos que no se cambian: nombre, apellido, dni, fechanac
+    - Cambio de plan, se registra fecha y motivo. Es para hacer un listado.
+    - Baja lógica, se registra fecha. Se ponen en disponibles los turnos que tenga.
+    ● Nombre y Apellido.
+    ● Tipo y número de documento
+    ● Dirección completa
+    ● Teléfono
+    ● Mail
+    ● Fecha de nacimiento
+    ● Sexo
+    ● Estado civil
+      ▪ Soltero/a
+      ▪ Casado/a
+      ▪ Viudo/a
+      ▪ Concubinato
+      ▪ Divorciado/a
+    ● Cantidad de hijos o familiares a cargo
+    ● Plan Médico
+    ● Nro. de afiliado (asignado por el sistema)
+
+    - Si es Casado o vive en concubinato, se da la opcion de cargar conyuge.
+    - Ademas, se consulta si tiene hijos
+    - El grupo va a compartir un numero de afiliado, diferenciando por 01,02,03,etc
+    - Se puede modificar individualmente
+
+5- Profesional:
+  - NO SE HACE
+  - ABM PRO
+  - Una o más especialidades
+  ● Nombre y Apellido.
+  ● Tipo y número de documento
+  ● Dirección completa
+  ● Teléfono
+  ● Mail
+  ● Fecha de nacimiento
+  ● Sexo
+  ● Matricula.
+  ● Especialidades.
+
+6- Especialidades:
+  - NO SE HACE
+  - Nombre y tipo (ej, cirugia del corazon, quirurgicas)
+
+7- Plan:
+  - NO SE HACE
+  - tiene el precio del bono para realizar consultas y medicamentos
+
+8- Agenda:
+  - UNA VEZ GENERADA NO SE MODIFICA.
+  - Lunes a sábado
+  - Seleccionar especialidad atiende el profesional.
+  - Lun a Vie: 07:00-20:00 Sab: 10:00-15:00
+  - Turnos cada 30 min
+  - Sobre un rango de fechas
+  - No mas de 48 hs semanales
+
+9- Bonos:
+  - Varia precio por plan.
+  - Se lleva un conteo de "bonos consulta" por afiliado, independiente de la especialidad con la que se atiende.
+    ● Se completa al momento de realizar la consulta, no previamente cuando se compra el bono.
+  - Compra por 1 o N bonos. Se informa el monto total.
+  - Los bonos pueden consumirse por el grupo familiar que lo compra.(Ej: hijos consumiendo bonos de padres)
+  - Los bonos pueden ser usados para el plan que tenia al momento de la compra, tanto por el
+    que lo compro como sus familiares.
+  - El administrador puede comprar bonos para un afiliado, se le pide el numero de afiliado.
+  - El afiliado tiene que estar activo.
+
+10- Turno:
+  - Pantalla con seleccion de profesional, se filtra por especialidad.
+  - Una vez elegido, se muestran las fechas disponibles. Una vez elegida la fecha, se muestra horario.
+  - No se permiten sobre-turnos.
+
+11- Registro llegada atencion medica:
+  - La usa el administrativo.
+  - Se busca al profesional filtrando por especialidad.
+  - Seleccionado el profesional, se cargan los turnos disponibles para ese día.
+    Se seleccionara al afiliado que hara la consulta.
+  - Se deja constancia parcial de asistencia al turno pedido por el afiliado.
+    Se registra el uso de un bono por parte del afiliado. Se registra en que consulta fue utilizado el bono.
+  - Puede ocurrir que el afiliado se retira antes de finalizar la consulta. El bono se consume de todas formas.
+  - La llegada registra fecha y hora de llegada del afiliado. Siempre llega puntual.
+
+  - EL AFILIADO PUEDE CANCELAR SU TURNO O EL PROFESIONAL CANCELA SU DIA DE ATENCION.
+
+12- Registro resultado atención médica:
+  - La usa el profesional.
+  - Primero registra hora y fecha de la consulta.
+  - Registra sintomas y diagnostico.
+
+13- Cancelacion:
+  - Con un dia de antelacion.
+  - El afiliado puede cancelar solo turnos propios.
+  - El profesional puede cancelar un dia en particular o un periodo.(imagino que son dias y no horarios)
+  - Tiene Tipo de cancelacion y Motivo-Detalle. (Crear tipos de cancelacion a criterio)
+
+14- Listados:
+  - Primero elegir el año y el tipo de listado.
+  - A nivel semestral, con desagregacion mensual. Cada pantalla permite elegir el semestre.
+  - Descendente por cantidades.
+  - Listados:
+    1- Top 5 especialidades con mas cancelaciones.
+    2- Top 5 profesionales mas consultados por plan, detallando especialidad.
+    3- Top 5 profesionales con menos horas trabajadas, filtros por plan y especialidad.
+    4- Top 5 afiliados con mas bonos comprados, detallar si tiene grupo familiar.
+    5- Top 5 especialidades con mas bonos utilizados.
+
+Qué hay que hacer:
+1- Rol: Parecido a TP anterior.
+2- Login: Igual a TP anterior.
+4- Afiliado.
+8- Agenda: Se genera una única vez.
+9- Compra de Bonos.
+10- Pedido de Turno
+11- Registro Llegada.
+12- Resultado consulta.
+13- Cancelacion
+14- Listados
+
+Notas:
+https://groups.google.com/forum/#!topic/gestiondedatos/c5E-oLFgcEY
+Consulta de si el profesional puede tener turnos en el mismo dia que sean para diferentes Especialidades.
+Respuesta: No dicen nada concreto. Solo que no sumen mas de la cantidad posible de turnos.
+
+Func Roles:
+Admin:
+1- Rol
+3- Usuario
+4- Afiliado
+5- Profesional
+6- Especialidades
+7- Plan
+11- Registro llegada
+14- Listado
+Afiliado:
+9- Compra de bonos
+10- Pedido de turno
+13- Cancelacion
+Profesional:
+8- Agenda
+12- Resultado consulta
+13- Cancelacion
