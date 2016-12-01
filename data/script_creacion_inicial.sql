@@ -370,7 +370,8 @@ CREATE TABLE HELLFISH.CambioDePlan (
 )
 GO
 
-
+PRINT 'TABLA Usuario'
+GO
 
 CREATE TABLE HELLFISH.Usuario (
 	id int NOT NULL,
@@ -381,6 +382,11 @@ CREATE TABLE HELLFISH.Usuario (
 	idPersona int NOT NULL
 )
 GO
+
+PRINT 'INSERT Usuario'
+
+INSERT INTO LOS_TRIGGERS.Usuario (username, password, intentosFallidos, alta, idPersona)
+	values ('admin', HASHBYTES('SHA2_256', CONVERT(varchar(255), 'w23e')), 0, 1, 1);
 
 CREATE TABLE HELLFISH.UsuarioRol (
 	idUsuario int NOT NULL,
@@ -422,11 +428,25 @@ CREATE TABLE HELLFISH.Cancelacion (
 )
 GO
 
+PRINT 'TABLA TipoCancelacion'
+GO
+
 CREATE TABLE HELLFISH.TipoCancelacion (
-	id int NOT NULL,
+	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	deAfiliado bit NOT NULL,
 	descripcion varchar(255) NOT NULL
 )
+GO
+
+PRINT 'INSERT TipoCancelacion'
+GO
+
+insert into LOS_TRIGGERS.Tipo_Cancelacion (deAfiliado,descripcion)
+	values (1,'Ya no necesita el servicio'),
+			(1,'Ha encontrado otro servicio alternativo'),
+			(1,'La atención al cliente no ha cubierto sus expectativas'),
+			(1,'No puede asistir por un problema personal'),
+			(1,'Otro motivo')
 GO
 
 CREATE TABLE HELLFISH.Turno (
@@ -455,11 +475,23 @@ insert into HELLFISH.PlanMedico (codigo, descripcion, precioBonoConsulta, precio
 	(select distinct(Plan_Med_Codigo), Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia
 	from gd_esquema.Maestra where Plan_Med_Codigo is not null);
 
+PRINT 'TABLA TIPO Especialidad'
+GO
 
 CREATE TABLE HELLFISH.TipoEspecialidad (
 	codigo numeric(18) NOT NULL,
 	descripcion varchar(255) NOT NULL
 )
+GO
+
+PRINT 'INSERT PLAN Medico'
+GO
+
+insert into HELLFISH.Tipo_Especialidad (codigo, descripcion)
+	(select distinct(Tipo_Especialidad_Codigo), Tipo_Especialidad_Descripcion from gd_esquema.Maestra
+	where Tipo_Especialidad_Codigo is not null);
+
+PRINT 'TABLA Especialidad'
 GO
 
 CREATE TABLE HELLFISH.Especialidad (
@@ -469,16 +501,32 @@ CREATE TABLE HELLFISH.Especialidad (
 )
 GO
 
+PRINT 'INSERT Especialidad'
+GO
+
+insert into LOS_TRIGGERS.Especialidad (codigo, descripcion, tipo)
+	(select distinct(Especialidad_Codigo), Especialidad_Descripcion, Tipo_Especialidad_Codigo
+	from gd_esquema.Maestra where Especialidad_Codigo is not null);
+
+PRINT 'TABLA Especialidad'
+GO
+
 CREATE TABLE HELLFISH.Profesional (
 	nroMatricula numeric(18) NOT NULL,
 	id int NOT NULL
 )
 GO
 
+PRINT 'TABLA TipoDocumento'
+GO
+
 CREATE TABLE HELLFISH.TipoDocumento (
 	id int NOT NULL,
 	descripcion char(20) NOT NULL
 )
+GO
+
+PRINT 'INSERT Especialidad'
 GO
 
 CREATE TABLE HELLFISH.TipoPersona (
