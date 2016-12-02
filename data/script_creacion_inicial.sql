@@ -337,6 +337,84 @@ INSERT INTO HELLFISH.RolFuncionalidad (idFuncionalidad,idRol)
 	OR F.descripcion = 'Registro de resultado para atencion medica'
 	OR F.descripcion = 'Cancelar atencion medica'));
 
+PRINT 'TABLA TipoCancelacion'
+GO
+
+CREATE TABLE HELLFISH.TipoCancelacion (
+	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	deAfiliado bit NOT NULL,
+	descripcion varchar(255) NOT NULL
+)
+GO
+
+PRINT 'INSERT TipoCancelacion'
+GO
+
+insert into HELLFISH.TipoCancelacion (deAfiliado,descripcion)
+	values (1,'Ya no necesita el servicio'),
+			(1,'Ha encontrado otro servicio alternativo'),
+			(1,'La atención al cliente no ha cubierto sus expectativas'),
+			(1,'No puede asistir por un problema personal'),
+			(1,'Otro motivo')
+GO
+
+PRINT 'TABLA PLAN Medico'
+GO
+
+CREATE TABLE HELLFISH.PlanMedico (
+	codigo numeric(18) NOT NULL,
+	descripcion varchar(255) NOT NULL,
+	precioBonoConsulta numeric(18) NOT NULL,
+	precioBonoFarmacia numeric(18) NOT NULL
+)
+GO
+
+PRINT 'INSERT PLAN Medico'
+GO
+
+insert into HELLFISH.PlanMedico (codigo, descripcion, precioBonoConsulta, precioBonoFarmacia)
+	(select distinct(Plan_Med_Codigo), Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia
+	from gd_esquema.Maestra where Plan_Med_Codigo is not null);
+
+
+PRINT 'INSERT Tipo Especialidad'
+GO
+
+CREATE TABLE HELLFISH.TipoEspecialidad (
+	id numeric(18) IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	descripcion varchar(255) NOT NULL
+)
+GO
+
+PRINT 'INSERT Tipo Especialidad'
+GO
+
+SET IDENTITY_INSERT HELLFISH.TipoEspecialidad ON
+
+insert into HELLFISH.TipoEspecialidad (id, descripcion)
+	select distinct(Tipo_Especialidad_Codigo), Tipo_Especialidad_Descripcion from gd_esquema.Maestra
+	where Tipo_Especialidad_Codigo is not null;
+
+SET IDENTITY_INSERT HELLFISH.TipoEspecialidad OFF
+
+PRINT 'TABLA Especialidad'
+GO
+
+CREATE TABLE HELLFISH.Especialidad (
+	id numeric(18) IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	descripcion varchar(255) NOT NULL,
+	tipo numeric(18) NOT NULL
+)
+GO
+
+SET IDENTITY_INSERT HELLFISH.Especialidad ON
+
+insert into HELLFISH.Especialidad (id, descripcion, tipo)
+	(select distinct Especialidad_Codigo, Especialidad_Descripcion, Tipo_Especialidad_Codigo
+	from gd_esquema.Maestra where Especialidad_Codigo is not null and Tipo_Especialidad_Codigo is not null);
+
+SET IDENTITY_INSERT HELLFISH.Especialidad OFF
+
 CREATE TABLE HELLFISH.AgendaProfesional (
 	id int NOT NULL,
 	idProfesionalEspecialidad int NOT NULL,
@@ -428,26 +506,7 @@ CREATE TABLE HELLFISH.Cancelacion (
 )
 GO
 
-PRINT 'TABLA TipoCancelacion'
-GO
 
-CREATE TABLE HELLFISH.TipoCancelacion (
-	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	deAfiliado bit NOT NULL,
-	descripcion varchar(255) NOT NULL
-)
-GO
-
-PRINT 'INSERT TipoCancelacion'
-GO
-
-insert into HELLFISH.TipoCancelacion (deAfiliado,descripcion)
-	values (1,'Ya no necesita el servicio'),
-			(1,'Ha encontrado otro servicio alternativo'),
-			(1,'La atención al cliente no ha cubierto sus expectativas'),
-			(1,'No puede asistir por un problema personal'),
-			(1,'Otro motivo')
-GO
 
 CREATE TABLE HELLFISH.Turno (
 	id int NOT NULL,
@@ -457,62 +516,7 @@ CREATE TABLE HELLFISH.Turno (
 )
 GO
 
-PRINT 'TABLA PLAN Medico'
-GO
 
-CREATE TABLE HELLFISH.PlanMedico (
-	codigo numeric(18) NOT NULL,
-	descripcion varchar(255) NOT NULL,
-	precioBonoConsulta numeric(18) NOT NULL,
-	precioBonoFarmacia numeric(18) NOT NULL
-)
-GO
-
-PRINT 'INSERT PLAN Medico'
-GO
-
-insert into HELLFISH.PlanMedico (codigo, descripcion, precioBonoConsulta, precioBonoFarmacia)
-	(select distinct(Plan_Med_Codigo), Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia
-	from gd_esquema.Maestra where Plan_Med_Codigo is not null);
-
-
-PRINT 'INSERT Tipo Especialidad'
-GO
-
-CREATE TABLE HELLFISH.TipoEspecialidad (
-	id numeric(18) IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	descripcion varchar(255) NOT NULL
-)
-GO
-
-PRINT 'INSERT Tipo Especialidad'
-GO
-
-SET IDENTITY_INSERT HELLFISH.TipoEspecialidad ON
-
-insert into HELLFISH.TipoEspecialidad (id, descripcion)
-	select distinct(Tipo_Especialidad_Codigo), Tipo_Especialidad_Descripcion from gd_esquema.Maestra
-	where Tipo_Especialidad_Codigo is not null;
-
-SET IDENTITY_INSERT HELLFISH.TipoEspecialidad OFF
-
-PRINT 'TABLA Especialidad'
-GO
-
-CREATE TABLE HELLFISH.Especialidad (
-	id numeric(18) IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	descripcion varchar(255) NOT NULL,
-	tipo numeric(18) NOT NULL
-)
-GO
-
-SET IDENTITY_INSERT HELLFISH.Especialidad ON
-
-insert into HELLFISH.Especialidad (id, descripcion, tipo)
-	(select distinct Especialidad_Codigo, Especialidad_Descripcion, Tipo_Especialidad_Codigo
-	from gd_esquema.Maestra where Especialidad_Codigo is not null and Tipo_Especialidad_Codigo is not null);
-
-SET IDENTITY_INSERT HELLFISH.Especialidad OFF
 
 CREATE TABLE HELLFISH.Profesional (
 	nroMatricula numeric(18) NOT NULL,
@@ -558,7 +562,7 @@ CREATE TABLE HELLFISH.EstadoCivil (
 GO
 
 INSERT INTO HELLFISH.EstadoCivil(descripcion)
-	VALUES ('Soltero'),('Casado');
+	VALUES ('Soltero'),('Casado'),('Viudo'),('Concubinato'),('Divorciado');
 
 
 CREATE TABLE HELLFISH.GrupoFamiliar (
@@ -578,15 +582,18 @@ PRINT 'TABLA AFILIADO'
 GO
 
 CREATE TABLE HELLFISH.Afiliado (
+	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	nroAfiliadoIntegrante numeric(2),
 	planMedico numeric(18) NOT NULL,
 	idEstadoCivil int,
-	grupoFamiliar int NOT NULL,
-	id int NOT NULL
+	grupoFamiliar int NOT NULL
 )
 GO
 
 PRINT 'INSERT AFILIADO'
+GO
+
+PRINT 'TABLA PERSONA'
 GO
 
 CREATE TABLE HELLFISH.Persona (
@@ -605,15 +612,15 @@ CREATE TABLE HELLFISH.Persona (
 GO
 
 INSERT INTO HELLFISH.Persona(NOMBRE,apellido,tipoDocumento,numeroDocumento,direccion,telefono,email,fechaNacimiento,tipoPersona)
- (SELECT DISTINCT Paciente_Nombre, Paciente_Apellido,1,Paciente_Dni,Paciente_Direccion,Paciente_Telefono,Paciente_Mail,Paciente_Fecha_Nac,1 FROM gd_esquema.Maestra 
+ (SELECT DISTINCT Paciente_Nombre, Paciente_Apellido,1,Paciente_Dni,Paciente_Direccion,Paciente_Telefono,Paciente_Mail,Paciente_Fecha_Nac,1 FROM gd_esquema.Maestra
 	WHERE Paciente_Dni IS NOT NULL);
 
 INSERT INTO HELLFISH.Persona(NOMBRE,apellido,tipoDocumento,numeroDocumento,direccion,telefono,email,fechaNacimiento,tipoPersona)
- (SELECT DISTINCT Medico_Nombre, Medico_Apellido,1,Medico_Dni,Medico_Direccion,Medico_Telefono,Medico_Mail,Medico_Fecha_Nac,2 FROM gd_esquema.Maestra 
+ (SELECT DISTINCT Medico_Nombre, Medico_Apellido,1,Medico_Dni,Medico_Direccion,Medico_Telefono,Medico_Mail,Medico_Fecha_Nac,2 FROM gd_esquema.Maestra
 	WHERE Medico_Dni IS NOT NULL);
 
 INSERT INTO HELLFISH.Persona(NOMBRE,apellido,tipoDocumento,numeroDocumento,direccion,telefono,email,fechaNacimiento,tipoPersona)
-VALUES('Admin','Admin',1,9999999,'Admin',4444444,'Admin@admin.com',GETDATE(),3);
+VALUES('Admin','Admin',1,9999999,'Admin',44444444,'Admin@admin.com',GETDATE(),3);
 
 -- Creacion de constraints de PK
 
