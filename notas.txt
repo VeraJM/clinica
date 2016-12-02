@@ -1,4 +1,4 @@
-﻿1- ROL:
+1- ROL:
   - Lo mismo que el tp pasado.
   - 3 roles: Afiliado, Administrativo, Profesional.
   - Agregar y eliminar funcionalidades.
@@ -144,6 +144,19 @@ Notas:
 https://groups.google.com/forum/#!topic/gestiondedatos/c5E-oLFgcEY
 Consulta de si el profesional puede tener turnos en el mismo dia que sean para diferentes Especialidades.
 Respuesta: No dicen nada concreto. Solo que no sumen mas de la cantidad posible de turnos.
+
+Compra de bono:
+Un bono se puede comprar de a muchos o uno, tal vez puede modelarse una "Compra de bono" como entidad.
+
+Grupos Familiares:
+Se define por apellido.
+El mas viejo es el titular.
+    Forma de hacerlo:
+        1- hacer un SP con un cursor que tome un select de los afiliados en maestra, ordenado por apellido
+          y fecha de nacimiento ascendente. El primero con un apellido diferente va a ser el titular. Por cada nuevo apellido
+          voy a tener un grupo familiar nuevo.(podria ya estar inyectado el grupo en la tabla o inyectarlo en ese momento)
+          Cuando cambio de apellido, tengo un nuevo Titular y grupo familiar.
+          recorro hasta encontrar fetch 0.
 
 Func Roles:
 Admin:
