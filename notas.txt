@@ -1,4 +1,4 @@
-1- ROL:
+﻿1- ROL:
   - Lo mismo que el tp pasado.
   - 3 roles: Afiliado, Administrativo, Profesional.
   - Agregar y eliminar funcionalidades.
@@ -163,3 +163,34 @@ Profesional:
 8- Agenda
 12- Resultado consulta
 13- Cancelacion
+
+Campo tabla maestra:
+Paciente_Nombre
+Paciente_Apellido
+Paciente_Dni
+Paciente_Direccion
+Paciente_Telefono
+Paciente_Mail
+Paciente_Fecha_Nac
+Plan_Med_Codigo
+Plan_Med_Descripcion
+Plan_Med_Precio_Bono_Consulta
+Plan_Med_Precio_Bono_Farmacia
+Turno_Numero
+Turno_Fecha
+Consulta_Sintomas
+Consulta_Enfermedades
+Medico_Nombre
+Medico_Apellido
+Medico_Dni
+Medico_Direccion
+Medico_Telefono
+Medico_Mail
+Medico_Fecha_Nac
+Especialidad_Codigo
+Especialidad_Descripcion
+Tipo_Especialidad_Codigo
+Tipo_Especialidad_Descripcion
+Compra_Bono_Fecha
+Bono_Consulta_Fecha_Impresion
+Bono_Consulta_Numero
