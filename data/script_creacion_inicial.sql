@@ -370,10 +370,11 @@ CREATE TABLE HELLFISH.CambioDePlan (
 )
 GO
 
-
+PRINT 'TABLA Usuario'
+GO
 
 CREATE TABLE HELLFISH.Usuario (
-	id int NOT NULL,
+	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	username varchar(255) NOT NULL,
 	password varchar(64) NOT NULL,
 	intentosFallidos smallint DEFAULT 0 NOT NULL,
@@ -381,6 +382,11 @@ CREATE TABLE HELLFISH.Usuario (
 	idPersona int NOT NULL
 )
 GO
+
+PRINT 'INSERT Usuario'
+
+INSERT INTO HELLFISH.Usuario (username, password, intentosFallidos, alta, idPersona)
+	values ('admin', HASHBYTES('SHA2_256', CONVERT(varchar(255), 'w23e')), 0, 1, 1);
 
 CREATE TABLE HELLFISH.UsuarioRol (
 	idUsuario int NOT NULL,
@@ -422,11 +428,25 @@ CREATE TABLE HELLFISH.Cancelacion (
 )
 GO
 
+PRINT 'TABLA TipoCancelacion'
+GO
+
 CREATE TABLE HELLFISH.TipoCancelacion (
-	id int NOT NULL,
+	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	deAfiliado bit NOT NULL,
 	descripcion varchar(255) NOT NULL
 )
+GO
+
+PRINT 'INSERT TipoCancelacion'
+GO
+
+insert into HELLFISH.TipoCancelacion (deAfiliado,descripcion)
+	values (1,'Ya no necesita el servicio'),
+			(1,'Ha encontrado otro servicio alternativo'),
+			(1,'La atención al cliente no ha cubierto sus expectativas'),
+			(1,'No puede asistir por un problema personal'),
+			(1,'Otro motivo')
 GO
 
 CREATE TABLE HELLFISH.Turno (
@@ -455,6 +475,7 @@ insert into HELLFISH.PlanMedico (codigo, descripcion, precioBonoConsulta, precio
 	(select distinct(Plan_Med_Codigo), Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia
 	from gd_esquema.Maestra where Plan_Med_Codigo is not null);
 
+
 PRINT 'INSERT Tipo Especialidad'
 GO
 
@@ -462,6 +483,9 @@ CREATE TABLE HELLFISH.TipoEspecialidad (
 	id numeric(18) IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	descripcion varchar(255) NOT NULL
 )
+GO
+
+PRINT 'INSERT Tipo Especialidad'
 GO
 
 SET IDENTITY_INSERT HELLFISH.TipoEspecialidad ON
@@ -472,7 +496,7 @@ insert into HELLFISH.TipoEspecialidad (id, descripcion)
 
 SET IDENTITY_INSERT HELLFISH.TipoEspecialidad OFF
 
-PRINT 'INSERT Tipo Especialidad'
+PRINT 'TABLA Especialidad'
 GO
 
 CREATE TABLE HELLFISH.Especialidad (
@@ -496,7 +520,7 @@ CREATE TABLE HELLFISH.Profesional (
 )
 GO
 
-PRINT 'TABLA TIPODocumento'
+PRINT 'TABLA TipoDocumento'
 GO
 
 CREATE TABLE HELLFISH.TipoDocumento (
@@ -505,9 +529,9 @@ CREATE TABLE HELLFISH.TipoDocumento (
 )
 GO
 
+
 PRINT 'Insert TIPODocumento'
 GO
-
 INSERT INTO HELLFISH.TipoDocumento(descripcion)
 	VALUES ('DNI');
 
