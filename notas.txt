@@ -207,3 +207,14 @@ Tipo_Especialidad_Descripcion
 Compra_Bono_Fecha
 Bono_Consulta_Fecha_Impresion
 Bono_Consulta_Numero
+
+Migracion:
+Falta:
+agenda
+venta de bonos
+bonos
+cancelacion
+usuario
+cambio de plan
+turno
+profesional especialidad
