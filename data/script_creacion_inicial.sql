@@ -362,7 +362,7 @@ PRINT 'TABLA PLAN Medico'
 GO
 
 CREATE TABLE HELLFISH.PlanMedico (
-	codigo numeric(18) NOT NULL,
+	id numeric(18) NOT NULL,
 	descripcion varchar(255) NOT NULL,
 	precioBonoConsulta numeric(18) NOT NULL,
 	precioBonoFarmacia numeric(18) NOT NULL
@@ -372,7 +372,7 @@ GO
 PRINT 'INSERT PLAN Medico'
 GO
 
-insert into HELLFISH.PlanMedico (codigo, descripcion, precioBonoConsulta, precioBonoFarmacia)
+insert into HELLFISH.PlanMedico (id, descripcion, precioBonoConsulta, precioBonoFarmacia)
 	(select distinct(Plan_Med_Codigo), Plan_Med_Descripcion, Plan_Med_Precio_Bono_Consulta, Plan_Med_Precio_Bono_Farmacia
 	from gd_esquema.Maestra where Plan_Med_Codigo is not null);
 
@@ -515,14 +515,12 @@ CREATE TABLE HELLFISH.Turno (
 	afiliado int
 )
 GO
-
-
-
+/*
 CREATE TABLE HELLFISH.Profesional (
 	nroMatricula numeric(18) NOT NULL,
 	id int NOT NULL
 )
-GO
+GO*/
 
 PRINT 'TABLA TipoDocumento'
 GO
@@ -565,15 +563,16 @@ INSERT INTO HELLFISH.EstadoCivil(descripcion)
 	VALUES ('Soltero'),('Casado'),('Viudo'),('Concubinato'),('Divorciado');
 
 
-CREATE TABLE HELLFISH.GrupoFamiliar (
-	nroAfiliadoBase numeric(18) NOT NULL,
+CREATE TABLE HELLFISH.ProfesionalEspecialidad (
+	idProfesional int NOT NULL,
+	especialidad numeric(18) NOT NULL,
 	id int NOT NULL
 )
 GO
 
-CREATE TABLE HELLFISH.ProfesionalEspecialidad (
-	idProfesional int NOT NULL,
-	especialidad numeric(18) NOT NULL,
+
+CREATE TABLE HELLFISH.GrupoFamiliar (
+	nroAfiliadoBase numeric(18) NOT NULL,
 	id int NOT NULL
 )
 GO
@@ -582,21 +581,6 @@ PRINT 'TABLA AFILIADO'
 GO
 
 CREATE TABLE HELLFISH.Afiliado (
-	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	nroAfiliadoIntegrante numeric(2),
-	planMedico numeric(18) NOT NULL,
-	idEstadoCivil int,
-	grupoFamiliar int NOT NULL
-)
-GO
-
-PRINT 'INSERT AFILIADO'
-GO
-
-PRINT 'TABLA PERSONA'
-GO
-
-CREATE TABLE HELLFISH.Persona (
 	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	nombre varchar(255) NOT NULL,
 	apellido varchar(255) NOT NULL,
@@ -607,6 +591,83 @@ CREATE TABLE HELLFISH.Persona (
 	email varchar(255) NOT NULL,
 	fechaNacimiento datetime NOT NULL,
 	sexo char(1) default 'M' NOT NULL,
+	nroAfiliadoIntegrante numeric(2),
+	planMedico numeric(18) NOT NULL,
+	idEstadoCivil int,
+	grupoFamiliar int NOT NULL
+)
+GO
+
+
+CREATE PROCEDURE HELLFISH.MIGRACION_AFILIADOS
+AS BEGIN
+DECLARE C_AFILIADOS CURSOR FOR (SELECT DISTINCT Paciente_Nombre, Paciente_Apellido,Paciente_Dni,Paciente_Direccion,Paciente_Telefono,Paciente_Mail,Paciente_Fecha_Nac,Plan_Med_Codigo 
+								FROM gd_esquema.Maestra
+								WHERE Paciente_Dni IS NOT NULL)
+OPEN C_AFILIADOS
+DECLARE @grupo int
+SET @grupo = 1
+DECLARE @nombre varchar(255)
+DECLARE @apellido varchar(255)
+DECLARE @numeroDocumento numeric(18)
+DECLARE @direccion varchar(255)
+DECLARE @telefono numeric(18)
+DECLARE @email varchar(255)
+DECLARE @fechaNacimiento datetime
+DECLARE @planMedico numeric(18)
+FETCH NEXT FROM C_AFILIADOS INTO @nombre,@apellido,@numeroDocumento,@direccion,@telefono,@email,@fechaNacimiento,@planMedico
+WHILE (@@FETCH_STATUS = 0)
+BEGIN 
+/*PRINT 'ESTO SE EJECUTAAAAAAAAAAAAAAAAAAAAAAAAAAA'*/
+	INSERT INTO HELLFISH.Afiliado(NOMBRE,apellido,tipoDocumento,numeroDocumento,direccion,telefono,email,fechaNacimiento,nroAfiliadoIntegrante,planMedico,idEstadoCivil,grupoFamiliar)
+			VALUES (@nombre,@apellido,1,@numeroDocumento,@direccion,@telefono,@email,@fechaNacimiento,1,@planMedico,1,@grupo);
+	
+	/*DECLARE @ID_USUARIO INT
+	SELECT @ID_USUARIO= SCOPE_IDENTITY()
+	
+	INSERT INTO CLAVE_MOTOR.Asignaciones(usua_id,idRol)
+			VALUES (@ID_USUARIO,
+					(SELECT CLAVE_MOTOR.Rol.rol_id FROM CLAVE_MOTOR.Rol WHERE rol.rol_descripcion = 'Empresa'));*/
+	INSERT INTO HELLFISH.GrupoFamiliar(nroAfiliadoBase,ID)
+		VALUES(SCOPE_IDENTITY(),@grupo);
+
+	FETCH NEXT FROM C_AFILIADOS INTO @nombre,@apellido,@numeroDocumento,@direccion,@telefono,@email,@fechaNacimiento,@planMedico
+END
+CLOSE C_AFILIADOS
+DEALLOCATE C_AFILIADOS
+END
+GO
+
+EXEC HELLFISH.MIGRACION_AFILIADOS;
+GO
+
+PRINT 'INSERT AFILIADO'
+GO
+
+PRINT 'TABLA PERSONA'
+GO
+
+CREATE TABLE HELLFISH.Profesional (
+	nroMatricula numeric(18),
+	nombre varchar(255) NOT NULL,
+	apellido varchar(255) NOT NULL,
+	tipoDocumento int NOT NULL,
+	numeroDocumento numeric(18) NOT NULL,
+	direccion varchar(255) NOT NULL,
+	telefono numeric(18) NOT NULL,
+	email varchar(255) NOT NULL,
+	fechaNacimiento datetime NOT NULL,
+	sexo char(1) default 'M' NOT NULL,
+	id int IDENTITY(1,1) PRIMARY KEY NOT NULL
+)
+GO
+
+INSERT INTO HELLFISH.Profesional(NOMBRE,apellido,tipoDocumento,numeroDocumento,direccion,telefono,email,fechaNacimiento)
+(SELECT DISTINCT Medico_Nombre, Medico_Apellido,1,Medico_Dni,Medico_Direccion,Medico_Telefono,Medico_Mail,Medico_Fecha_Nac FROM gd_esquema.Maestra
+	WHERE Medico_Dni IS NOT NULL);
+/*
+CREATE TABLE HELLFISH.Persona (NOMBRE,apellido,tipoDocumento,numeroDocumento,direccion,telefono,email,fechaNacimiento
+	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	tipoPersona int NOT NULL
 )
 GO
@@ -621,7 +682,7 @@ INSERT INTO HELLFISH.Persona(NOMBRE,apellido,tipoDocumento,numeroDocumento,direc
 
 INSERT INTO HELLFISH.Persona(NOMBRE,apellido,tipoDocumento,numeroDocumento,direccion,telefono,email,fechaNacimiento,tipoPersona)
 VALUES('Admin','Admin',1,9999999,'Admin',44444444,'Admin@admin.com',GETDATE(),3);
-
+*/
 -- Creacion de constraints de PK
 
 ALTER TABLE HELLFISH.AgendaProfesional ADD CONSTRAINT PK_AgendaProfesional
@@ -851,7 +912,7 @@ GO
 ALTER TABLE HELLFISH.Afiliado ADD CONSTRAINT FK_Afilidado_PlanMedico
 	FOREIGN KEY (planMedico) REFERENCES HELLFISH.PlanMedico (codigo)
 GO
-
+/*
 ALTER TABLE HELLFISH.Persona ADD CONSTRAINT FK_Persona_TipoDocumento
 	FOREIGN KEY (tipoDocumento) REFERENCES HELLFISH.TipoDocumento (id)
 GO
@@ -859,7 +920,7 @@ GO
 ALTER TABLE HELLFISH.Persona ADD CONSTRAINT FK_Persona_TipoPersona
 	FOREIGN KEY (tipoPersona) REFERENCES HELLFISH.TipoPersona (id)
 GO
-
+*/
 -- Creacion de Stored Procedures para migracion de datos
 
 -- Stored procedures
