@@ -1,3 +1,4 @@
+/*
 select * from gd_esquema.Maestra
 order by Publicacion_Cod, Compra_Cantidad;
 
@@ -437,14 +438,15 @@ insert into CLAVE_MOTOR.Asignaciones([usua_id],[idRol])
 (SELECT clie_idUsuario,2 FROM CLAVE_MOTOR.cliente )
 
 SELECT * FROM [CLAVE_MOTOR].Asignaciones
-
+*/
 SELECT * FROM HELLFISH.Rol;
 SELECT * FROM HELLFISH.Funcionalidad;
 SELECT * FROM HELLFISH.ROLFuncionalidad
 WHERE idRol = 1
 ORDER BY idRol;
 
-SELECT * FROM HELLFISH.Persona;
+SELECT * FROM HELLFISH.Afiliado;
+SELECT * FROM HELLFISH.Profesional;
 SELECT * FROM HELLFISH.PlanMedico;
 
 sELECT * FROM gd_esquema.Maestra
@@ -460,9 +462,68 @@ SELECT DISTINCT M1.Paciente_Nombre, M1.Paciente_Apellido,1,M1.Paciente_Dni,M1.Pa
 JOIN GD_ESQUEMA.MAESTRA M2 ON M1.PACIENTE_APELLIDO = M2.PACIENTE_APELLIDO AND M1.PACIENTE_DIRECCION = M2.PACIENTE_DIRECCION AND M1.Paciente_Dni <> M2.Paciente_Dni;
 WHERE
 
-SELECT DISTINCT Paciente_Apellido FROM gd_esquema.Maestra;
+SELECT DISTINCT Paciente_Apellido, count(*) FROM gd_esquema.Maestra
+group by Paciente_Apellido;
 
+select distinct Medico_Dni from gd_esquema.Maestra
 
 SELECT COLUMN_NAME,* 
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'Maestra' AND TABLE_SCHEMA='gd_esquema';
+------------------------------------------------------------------------
+/* MEDICO ESPECIALIDAD */
+select distinct Medico_Nombre,Medico_dni,Especialidad_Codigo,
+Especialidad_Descripcion,
+Tipo_Especialidad_Codigo,
+Tipo_Especialidad_Descripcion from gd_esquema.Maestra
+order by Tipo_Especialidad_Codigo;
+
+select distinct Medico_Nombre,Medico_dni,Especialidad_Codigo,Especialidad_Descripcion from gd_esquema.Maestra
+where Medico_Dni is not null
+order by Medico_Dni;
+------------------------------------------------------------------------
+/* BONOS */
+sELECT paciente_dni,Plan_Med_Precio_Bono_Consulta,Plan_Med_Precio_Bono_Farmacia,Compra_Bono_Fecha,Bono_Consulta_Fecha_Impresion,Bono_Consulta_Numero FROM gd_esquema.Maestra
+where Compra_Bono_Fecha is not null or Bono_Consulta_Fecha_Impresion is not null or Bono_Consulta_Numero is not null
+order by Bono_Consulta_Numero;
+
+sELECT distinct (Bono_Consulta_Numero),paciente_dni,Plan_Med_Precio_Bono_Consulta,Plan_Med_Precio_Bono_Farmacia,Compra_Bono_Fecha,Bono_Consulta_Fecha_Impresion FROM gd_esquema.Maestra
+where Compra_Bono_Fecha is not null
+order by Bono_Consulta_Numero;
+
+sELECT distinct paciente_dni,Plan_Med_Precio_Bono_Consulta,Plan_Med_Precio_Bono_Farmacia,Compra_Bono_Fecha,Bono_Consulta_Fecha_Impresion,Bono_Consulta_Numero FROM gd_esquema.Maestra
+where Compra_Bono_Fecha is not null
+order by Bono_Consulta_Numero;
+
+select M1.paciente_dni as 'Comprador',M2.paciente_dni as 'usador',m1.Bono_Consulta_Numero from gd_esquema.Maestra M1 join gd_esquema.Maestra M2 on M1.Bono_Consulta_Numero=M2.Bono_Consulta_Numero
+where m1.Bono_Consulta_Numero is not null and m2.Bono_Consulta_Numero is not null
+and m2.Compra_Bono_Fecha is null
+and m1.Compra_Bono_Fecha is not null
+and m1.Paciente_Dni <> m2.Paciente_Dni
+order by Comprador;
+
+select distinct(Bono_Consulta_Numero), Bono_Consulta_Fecha_Impresion, A.id, Plan_Med_Codigo,
+								Plan_Med_Precio_Bono_Consulta, Compra_Bono_Fecha, A.grupoFamiliar
+						 from gd_esquema.Maestra join HELLFISH.Afiliado A ON Paciente_Dni = A.numeroDocumento where Compra_Bono_Fecha is not null
+
+select * from HELLFISH.VentaDeBonos
+ORDER BY idAfiliadoComprador,fechaDeCompra;
+select * from HELLFISH.Bono;
+select * from hellfish.Afiliado where id <>grupoFamiliar;
+SELECT Compra_Bono_Fecha,(SELECT id from hellfish.Afiliado where numeroDocumento = Paciente_Dni),Plan_Med_Codigo,1,Plan_Med_Precio_Bono_Consulta from gd_esquema.Maestra where Compra_Bono_Fecha is not null
+------------------------------------------------------------------------
+/* TURNOS */
+
+select DISTINCT paciente_dni,Turno_Numero,Turno_Fecha from gd_esquema.Maestra
+where Turno_Numero is not null
+order by Turno_Numero;
+
+sELECT * FROM gd_esquema.Maestra
+WHERE Turno_Numero IS NOT NULL AND Consulta_Sintomas IS NOT NULL
+order by Turno_Numero,Consulta_Sintomas;
+
+SELECT DISTINCT TURNO_NUMERO FROM gd_esquema.Maestra
+WHERE Turno_Numero IS NOT NULL;
+
+SELECT * FROM gd_esquema.Maestra WHERE Turno_Numero IS NULL AND Compra_Bono_Fecha IS NULL
+

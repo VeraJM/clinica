@@ -158,6 +158,9 @@ El mas viejo es el titular.
           Cuando cambio de apellido, tengo un nuevo Titular y grupo familiar.
           recorro hasta encontrar fetch 0.
 
+Migracion:
+profesionales tal vez seria mas rapido con un SP y cursor.
+
 Func Roles:
 Admin:
 1- Rol

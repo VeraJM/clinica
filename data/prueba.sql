@@ -1,0 +1,255 @@
+-- Creacion de constraints de PK
+/*
+
+ALTER TABLE HELLFISH.AgendaProfesional ADD CONSTRAINT PK_AgendaProfesional
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.VentaDeBonos ADD CONSTRAINT PK_VentaDeBonos
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.CambioDePlan ADD CONSTRAINT PK_CambioDePlan
+	PRIMARY KEY CLUSTERED (id)
+GO
+*/
+/*
+ALTER TABLE HELLFISH.Funcionalidad ADD CONSTRAINT PK_Funcionalidad
+	PRIMARY KEY CLUSTERED (id)
+GO
+*/
+ALTER TABLE HELLFISH.RolFuncionalidad ADD CONSTRAINT PK_RolFuncionalidad
+	PRIMARY KEY CLUSTERED (idRol, idFuncionalidad)
+GO
+/*
+ALTER TABLE HELLFISH.Rol ADD CONSTRAINT PK_Rol
+	PRIMARY KEY CLUSTERED (id)
+GO
+*/
+ALTER TABLE HELLFISH.Usuario ADD CONSTRAINT PK_Usuario
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.UsuarioRol ADD CONSTRAINT PK_UsuarioRol
+	PRIMARY KEY CLUSTERED (idUsuario, idRol)
+GO
+
+ALTER TABLE HELLFISH.Bono ADD CONSTRAINT PK_Bono
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.BonoConsulta ADD CONSTRAINT PK_BonoConsulta
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.Consulta ADD CONSTRAINT PK_Consulta
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.Cancelacion ADD CONSTRAINT PK_Cancelacion
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.TipoCancelacion ADD CONSTRAINT PK_TipoCancelacion
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.Turno ADD CONSTRAINT PK_Turno
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.PlanMedico ADD CONSTRAINT PK_PlanMedico
+	PRIMARY KEY CLUSTERED (codigo)
+GO
+
+ALTER TABLE HELLFISH.TipoEspecialidad ADD CONSTRAINT PK_TipoEspecialidad
+	PRIMARY KEY CLUSTERED (codigo)
+GO
+
+ALTER TABLE HELLFISH.Especialidad ADD CONSTRAINT PK_Especialidad
+	PRIMARY KEY CLUSTERED (codigo)
+GO
+
+ALTER TABLE HELLFISH.Profesional ADD CONSTRAINT PK_Profesional
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.TipoDocumento ADD CONSTRAINT PK_TipoDocumento
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.TipoPersona ADD CONSTRAINT PK_TipoPersona
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.EstadoCivil ADD CONSTRAINT PK_EstadoCivil
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.GrupoFamiliar ADD CONSTRAINT PK_GrupoFamiliar
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.ProfesionalEspecialidad ADD CONSTRAINT PK_ProfesionalEspecialidad
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.Afiliado ADD CONSTRAINT PK_Afilidado
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+ALTER TABLE HELLFISH.Persona ADD CONSTRAINT PK_Persona
+	PRIMARY KEY CLUSTERED (id)
+GO
+
+-- Creacion de constraints de unique
+
+ALTER TABLE HELLFISH.Profesional
+	ADD CONSTRAINT UQ_Profesional_nroMatricula UNIQUE (nroMatricula)
+GO
+
+ALTER TABLE HELLFISH.GrupoFamiliar
+	ADD CONSTRAINT UQ_GrupoFamiliar_nroAfiliadoBase UNIQUE (nroAfiliadoBase)
+GO
+
+-- Creacion de constraints de FK
+
+ALTER TABLE HELLFISH.AgendaProfesional ADD CONSTRAINT FK_AgendaProfesional_ProfesionalEspecialidad
+	FOREIGN KEY (idProfesionalEspecialidad) REFERENCES HELLFISH.ProfesionalEspecialidad (id)
+GO
+
+ALTER TABLE HELLFISH.VentaDeBonos ADD CONSTRAINT FK_VentaDeBonos_Afiliado
+	FOREIGN KEY (idAfiliadoComprador) REFERENCES HELLFISH.Afiliado (id)
+GO
+
+ALTER TABLE HELLFISH.VentaDeBonos ADD CONSTRAINT FK_VentaDeBonos_PlanMedico
+	FOREIGN KEY (planMedico) REFERENCES HELLFISH.PlanMedico (codigo)
+GO
+
+ALTER TABLE HELLFISH.CambioDePlan ADD CONSTRAINT FK_CambioDePlan_Afiliado
+	FOREIGN KEY (idAfiliado) REFERENCES HELLFISH.Afiliado (id)
+GO
+
+ALTER TABLE HELLFISH.CambioDePlan ADD CONSTRAINT FK_CambioDePlan_PlanMedico
+	FOREIGN KEY (planOrigen) REFERENCES HELLFISH.PlanMedico (codigo)
+GO
+
+ALTER TABLE HELLFISH.CambioDePlan ADD CONSTRAINT FK_CambioDePlan_PlanMedicoOrigen
+	FOREIGN KEY (planDestino) REFERENCES HELLFISH.PlanMedico (codigo)
+GO
+
+ALTER TABLE HELLFISH.RolFuncionalidad ADD CONSTRAINT FK_RolFuncionalidad_Funcionalidad
+	FOREIGN KEY (idFuncionalidad) REFERENCES HELLFISH.Funcionalidad (id)
+GO
+
+ALTER TABLE HELLFISH.RolFuncionalidad ADD CONSTRAINT FK_RolFuncionalidad_Rol
+	FOREIGN KEY (idRol) REFERENCES HELLFISH.Rol (id)
+GO
+
+ALTER TABLE HELLFISH.Usuario ADD CONSTRAINT FK_Usuario_Persona
+	FOREIGN KEY (idPersona) REFERENCES HELLFISH.Persona (id)
+GO
+
+ALTER TABLE HELLFISH.UsuarioRol ADD CONSTRAINT FK_UsuarioRol_Rol
+	FOREIGN KEY (idRol) REFERENCES HELLFISH.Rol (id)
+GO
+
+ALTER TABLE HELLFISH.UsuarioRol ADD CONSTRAINT FK_UsuarioRol_Usuario
+	FOREIGN KEY (idUsuario) REFERENCES HELLFISH.Usuario (id)
+GO
+
+ALTER TABLE HELLFISH.Bono ADD CONSTRAINT FK_Bono_VentaDeBonos
+	FOREIGN KEY (idVenta) REFERENCES HELLFISH.VentaDeBonos (id)
+GO
+
+ALTER TABLE HELLFISH.Bono ADD CONSTRAINT FK_Bono_GrupoFamiliar
+	FOREIGN KEY (idGrupoFamiliar) REFERENCES HELLFISH.GrupoFamiliar (id)
+GO
+
+ALTER TABLE HELLFISH.Bono ADD CONSTRAINT FK_Bono_PlanMedico
+	FOREIGN KEY (planMedico) REFERENCES HELLFISH.PlanMedico (codigo)
+GO
+
+ALTER TABLE HELLFISH.BonoConsulta ADD CONSTRAINT FK_BonoConsulta_Bono
+	FOREIGN KEY (idBono) REFERENCES HELLFISH.Bono (id)
+GO
+
+ALTER TABLE HELLFISH.BonoConsulta ADD CONSTRAINT FK_BonoConsulta_Consulta
+	FOREIGN KEY (idConsulta) REFERENCES HELLFISH.Consulta (id)
+GO
+
+ALTER TABLE HELLFISH.Consulta ADD CONSTRAINT FK_Consulta_Turno
+	FOREIGN KEY (idTurno) REFERENCES HELLFISH.Turno (id)
+GO
+
+ALTER TABLE HELLFISH.Cancelacion ADD CONSTRAINT FK_Cancelacion_TipoCancelacion
+	FOREIGN KEY (tipo) REFERENCES HELLFISH.TipoCancelacion (id)
+GO
+
+ALTER TABLE HELLFISH.Cancelacion ADD CONSTRAINT FK_Cancelacion_Turno
+	FOREIGN KEY (turno) REFERENCES HELLFISH.Turno (id)
+GO
+
+ALTER TABLE HELLFISH.Turno ADD CONSTRAINT FK_Turno_Afiliado
+	FOREIGN KEY (afiliado) REFERENCES HELLFISH.Afiliado (id)
+GO
+
+ALTER TABLE HELLFISH.Turno ADD CONSTRAINT FK_Turno_ProfesionalEspecialidad
+	FOREIGN KEY (idProfesionalEspecialidad) REFERENCES HELLFISH.ProfesionalEspecialidad (id)
+GO
+
+ALTER TABLE HELLFISH.Especialidad ADD CONSTRAINT FK_Especialidad_TipoEspecialidad
+	FOREIGN KEY (tipo) REFERENCES HELLFISH.TipoEspecialidad (codigo)
+GO
+
+ALTER TABLE HELLFISH.Profesional ADD CONSTRAINT FK_Profesional_Persona
+	FOREIGN KEY (id) REFERENCES HELLFISH.Persona (id)
+GO
+
+ALTER TABLE HELLFISH.ProfesionalEspecialidad ADD CONSTRAINT FK_ProfesionalEspecialidad_Especialidad
+	FOREIGN KEY (especialidad) REFERENCES HELLFISH.Especialidad (codigo)
+GO
+
+ALTER TABLE HELLFISH.ProfesionalEspecialidad ADD CONSTRAINT FK_ProfesionalEspecialidad_Profesional
+	FOREIGN KEY (idProfesional) REFERENCES HELLFISH.Profesional (id)
+GO
+
+ALTER TABLE HELLFISH.Afiliado ADD CONSTRAINT FK_Afilidado_EstadoCivil
+	FOREIGN KEY (idEstadoCivil) REFERENCES HELLFISH.EstadoCivil (id)
+GO
+
+ALTER TABLE HELLFISH.Afiliado ADD CONSTRAINT FK_Afilidado_GrupoFamiliar
+	FOREIGN KEY (grupoFamiliar) REFERENCES HELLFISH.GrupoFamiliar (id)
+GO
+
+ALTER TABLE HELLFISH.Afiliado ADD CONSTRAINT FK_Afilidado_Persona
+	FOREIGN KEY (id) REFERENCES HELLFISH.Persona (id)
+GO
+
+ALTER TABLE HELLFISH.Afiliado ADD CONSTRAINT FK_Afilidado_PlanMedico
+	FOREIGN KEY (planMedico) REFERENCES HELLFISH.PlanMedico (codigo)
+GO
+/*
+ALTER TABLE HELLFISH.Persona ADD CONSTRAINT FK_Persona_TipoDocumento
+	FOREIGN KEY (tipoDocumento) REFERENCES HELLFISH.TipoDocumento (id)
+GO
+
+ALTER TABLE HELLFISH.Persona ADD CONSTRAINT FK_Persona_TipoPersona
+	FOREIGN KEY (tipoPersona) REFERENCES HELLFISH.TipoPersona (id)
+GO
+*/
+-- Creacion de Stored Procedures para migracion de datos
+
+-- Stored procedures
+
+-- Funciones
+
+-- Indexes
+
+-- ------------------
+-- MIGRACION DE DATOS
+-- ------------------
+
+-- ------------------------------------------------
+-- STORED PROCEDURES Y FUNCIONES PARA LA APLICACION
+-- ------------------------------------------------
