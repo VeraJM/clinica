@@ -15,8 +15,8 @@ namespace ClinicaFrba.DAO
         public List<string> getFechasDisponibles(int profesionalId, int especialidadId)
         {
             SqlCommand func = armarFuncionTabla("OBTENER_FECHAS_PROFESIONAL_ESPECIALIDAD");
-            func = agregarParamFuncion(func, profesionalId.ToString());
-            func = agregarParamFuncion(func, especialidadId.ToString());
+            func = addParamFuncion(func, profesionalId.ToString());
+            func = addParamFuncion(func, especialidadId.ToString());
 
 
             List<String> lista = new List<String>();
@@ -37,7 +37,7 @@ namespace ClinicaFrba.DAO
         public DataTable buscarTurnos(int afiliadoId)
         {
             SqlCommand func = armarFuncionTabla("BUSCAR_TURNOS_AFILIADO");
-            func = agregarParamFuncion(func, afiliadoId.ToString());
+            func = addParamFuncion(func, afiliadoId.ToString());
 
             DataTable tabla = new DataTable();
             tabla.Columns.Add("turnoId", typeof(int));
@@ -67,11 +67,11 @@ namespace ClinicaFrba.DAO
 
         public void CancelarTurnoAfiliado(int turnoId, int afiliadoId, int motivoId, String detalle)
         {
-            SqlCommand comando = armarSP("CANCELAR_TURNO_AFILIADO");
-            agregarParametroIntSP(comando, "@TURNO_ID", turnoId);
-            agregarParametroIntSP(comando, "@AFILIADO_ID", afiliadoId);
-            agregarParametroIntSP(comando, "@MOTIVO_ID", motivoId);
-            agregarParametroStringSP(comando, "@DETALLE", detalle);
+            SqlCommand comando = SP("CANCELAR_TURNO_AFILIADO");
+            addParametroIntSP(comando, "@TURNO_ID", turnoId);
+            addParametroIntSP(comando, "@AFILIADO_ID", afiliadoId);
+            addParametroIntSP(comando, "@MOTIVO_ID", motivoId);
+            addParametroStringSP(comando, "@DETALLE", detalle);
 
             comando.ExecuteNonQuery();
         }
@@ -79,12 +79,12 @@ namespace ClinicaFrba.DAO
 
         public void CancelarTurnosProfesional(int profesionalId, DateTime desdeFecha, DateTime hastaFecha, int motivoId, String detalle)
         {
-            SqlCommand comando = armarSP("CANCELAR_TURNO_PROFESIONAL");
-            agregarParametroIntSP(comando, "@PROFESIONAL_ID", profesionalId);
-            agregarParametroDatetimeSP(comando, "@FECHA_DESDE", desdeFecha);
-            agregarParametroDatetimeSP(comando, "@FECHA_HASTA", hastaFecha);
-            agregarParametroIntSP(comando, "@MOTIVO_ID", motivoId);
-            agregarParametroStringSP(comando, "@DETALLE", detalle);
+            SqlCommand comando = SP("CANCELAR_TURNO_PROFESIONAL");
+            addParametroIntSP(comando, "@PROFESIONAL_ID", profesionalId);
+            addParametroDatetimeSP(comando, "@FECHA_DESDE", desdeFecha);
+            addParametroDatetimeSP(comando, "@FECHA_HASTA", hastaFecha);
+            addParametroIntSP(comando, "@MOTIVO_ID", motivoId);
+            addParametroStringSP(comando, "@DETALLE", detalle);
 
             comando.ExecuteNonQuery();
         }
@@ -112,10 +112,10 @@ namespace ClinicaFrba.DAO
 
         public void registrarLlegada(int turnoId, int afiliadoId, int bonoId)
         {
-            SqlCommand comando = armarSP("REGISTRAR_LLEGADA_AFILIADO");
-            agregarParametroIntSP(comando, "@TURNO_ID", turnoId);
-            agregarParametroIntSP(comando, "@AFILIADO_ID", afiliadoId);
-            agregarParametroIntSP(comando, "@BONO_ID", bonoId);
+            SqlCommand comando = SP("REGISTRAR_LLEGADA_AFILIADO");
+            addParametroIntSP(comando, "@TURNO_ID", turnoId);
+            addParametroIntSP(comando, "@AFILIADO_ID", afiliadoId);
+            addParametroIntSP(comando, "@BONO_ID", bonoId);
 
             comando.ExecuteNonQuery();
         }

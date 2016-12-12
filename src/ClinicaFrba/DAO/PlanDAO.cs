@@ -34,7 +34,7 @@ namespace ClinicaFrba.DAO
         public Afiliado buscarPlanAfiliado(int numero)
         {
             SqlCommand func = armarFuncionTabla("OBTENER_PLAN_AFILIADO");
-            func = agregarStringParamFuncion(func, numero.ToString());
+            func = addStringParamFuncion(func, numero.ToString());
             Afiliado Afiliado = armarPlanAfiliado(func);
             if (Afiliado != null)
             {

@@ -160,19 +160,20 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             string errores = "";
 
             // Registro los días
-            errores += RegistrarDia(chkLunes, cboEspecialidadLunes, cboDesdeLunes, cboHastaLunes, 1);
-            errores += RegistrarDia(chkMartes, cboEspecialidadMartes, cboDesdeMartes, cboHastaMartes, 2);
-            errores += RegistrarDia(chkMiercoles, cboEspecialidadMiercoles, cboDesdeMiercoles, cboHastaMiercoles, 3);
-            errores += RegistrarDia(chkJueves, cboEspecialidadJueves, cboDesdeJueves, cboHastaJueves, 4);
-            errores += RegistrarDia(chkViernes, cboEspecialidadViernes, cboDesdeViernes, cboHastaViernes, 5);
-            errores += RegistrarDia(chkSabado, cboEspecialidadSabado, cboDesdeSabado, cboHastaSabado, 6);
+            // Domingo = 1 para weekday
+            errores += RegistrarDia(chkLunes, cboEspecialidadLunes, cboDesdeLunes, cboHastaLunes, 2);
+            errores += RegistrarDia(chkMartes, cboEspecialidadMartes, cboDesdeMartes, cboHastaMartes, 3);
+            errores += RegistrarDia(chkMiercoles, cboEspecialidadMiercoles, cboDesdeMiercoles, cboHastaMiercoles, 4);
+            errores += RegistrarDia(chkJueves, cboEspecialidadJueves, cboDesdeJueves, cboHastaJueves, 5);
+            errores += RegistrarDia(chkViernes, cboEspecialidadViernes, cboDesdeViernes, cboHastaViernes, 6);
+            errores += RegistrarDia(chkSabado, cboEspecialidadSabado, cboDesdeSabado, cboHastaSabado, 7);
 
             if (errores == "")
             {
                 MessageBox.Show("Agenda registrada correctamente!");
             }
             else {
-                MessageBox.Show("Agenda registrada con errores:" + errores);
+                MessageBox.Show("Agenda con errores:" + errores);
             }
         }
 
@@ -262,7 +263,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                         desdeFecha, hastaFecha);
                 }
                 catch (Exception ex) {
-                    return "\nError en día " + dia.ToString() + ": " + ex.Message;
+                    return "\nError en día " + dia.ToString() + ": Dia Ocupado" + ex.Message;
                 }
             }
 

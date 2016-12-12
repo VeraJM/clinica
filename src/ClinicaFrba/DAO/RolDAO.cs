@@ -13,39 +13,39 @@ namespace ClinicaFrba.DAO
     {
         public void InsertarRol(string rol)
         {
-            SqlCommand comando = armarSP("NUEVO_ROL");
-            agregarParametroStringSP(comando, "@NOMBRE", rol);
+            SqlCommand comando = SP("NUEVO_ROL");
+            addParametroStringSP(comando, "@NOMBRE", rol);
             comando.ExecuteNonQuery();
         }
 
         public void AgregarFuncionalidad(string rol, string funcionalidad)
         {
-            SqlCommand comando = armarSP("AGREGAR_FUNCIONALIDAD");
-            agregarParametroStringSP(comando, "@NOMBRE_ROL", rol);
-            agregarParametroStringSP(comando, "@NOMBRE_FUNC", funcionalidad);
+            SqlCommand comando = SP("AGREGAR_FUNCIONALIDAD");
+            addParametroStringSP(comando, "@NOMBRE_ROL", rol);
+            addParametroStringSP(comando, "@NOMBRE_FUNC", funcionalidad);
             comando.ExecuteNonQuery();
         }
 
         public void darBajaRol(string rol)
         {
-            SqlCommand comando = armarSP("BAJA_ROL_NOMBRE");
-            agregarParametroStringSP(comando, "@NOMBRE_ROL", rol);
+            SqlCommand comando = SP("BAJA_ROL_NOMBRE");
+            addParametroStringSP(comando, "@NOMBRE_ROL", rol);
             comando.ExecuteNonQuery();
         }
 
         public void actualizarRol(string nuevoNombre, string viejoNombre, int habilitado)
         {
-            SqlCommand comando = armarSP("ACTUALIZAR_ROL");
-            agregarParametroStringSP(comando, "@NOMBRE", nuevoNombre);
-            agregarParametroStringSP(comando, "@NOMBRE_VIEJO", viejoNombre);
-            agregarParametroIntSP(comando, "@HABILITADO", habilitado);
+            SqlCommand comando = SP("ACTUALIZAR_ROL");
+            addParametroStringSP(comando, "@NOMBRE", nuevoNombre);
+            addParametroStringSP(comando, "@NOMBRE_VIEJO", viejoNombre);
+            addParametroIntSP(comando, "@HABILITADO", habilitado);
             comando.ExecuteNonQuery();
         }
 
         public void limpiarFuncionalidadRol(string rol)
         {
-            SqlCommand comando = armarSP("BORRAR_FUNCIONALIDAD_DE_ROL");
-            agregarParametroStringSP(comando, "@NOMBRE", rol);
+            SqlCommand comando = SP("BORRAR_FUNCIONALIDAD_DE_ROL");
+            addParametroStringSP(comando, "@NOMBRE", rol);
             comando.ExecuteNonQuery();
         }
 
@@ -87,14 +87,14 @@ namespace ClinicaFrba.DAO
         public int getHabilitacion(string rol)
         {
             SqlCommand func = armarFuncionTexto("OBTENER_HABILITACION_ROL");
-            agregarStringParamFuncion(func, rol);
+            addStringParamFuncion(func, rol);
             object resultado = ejecutarFuncionTexto(func);
             return (int)resultado;
         }
         public List<string> getFuncionalidesDeRol(string rol)
         {
             SqlCommand func = armarFuncionTabla("OBTENER_FUNCIONALIDADES_ROL");
-            func = agregarStringParamFuncion(func, rol);
+            func = addStringParamFuncion(func, rol);
             List<string> lista = ejecutarFuncionTablaTexto(func);
             return lista;
         }

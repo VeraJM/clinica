@@ -430,21 +430,7 @@ INSERT INTO HELLFISH.TipoDocumento(descripcion)
 	VALUES ('DNI');
 
 ------------------------------------------------------------------------
-/*PRINT 'TABLA TIPOPERSONA'
-GO
 
-CREATE TABLE HELLFISH.TipoPersona (
-	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	descripcion varchar(11) NOT NULL
-)
-GO
-
-PRINT 'INSERT TIPOPERSONA'
-GO
-
-INSERT INTO HELLFISH.TipoPersona(descripcion)
-	VALUES ('Afiliado'),('Profesional'),('Admin');
-*/
 PRINT 'TABLA EstadoCivil'
 GO
 CREATE TABLE HELLFISH.EstadoCivil (
@@ -460,7 +446,7 @@ INSERT INTO HELLFISH.EstadoCivil(descripcion)
 CREATE TABLE HELLFISH.PROFESIONALESpecialidad (
 	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	idProfesional int NOT NULL,
-	especialidad numeric(18) NOT NULL
+	especialidad int NOT NULL
 )
 GO
 ------------------------------------------------------------------------
@@ -543,7 +529,7 @@ CREATE TABLE HELLFISH.Afiliado (
 	fechaNacimiento datetime NOT NULL,
 	sexo char(50) default 'Masculino' NOT NULL,
 	nroAfiliadoIntegrante numeric(2),
-	planMedico numeric(18) NOT NULL,
+	planMedico int NOT NULL,
 	idEstadoCivil int,
 	grupoFamiliar int,
 	habilitado bit default 1,
@@ -603,102 +589,6 @@ GO
 EXEC HELLFISH.MIGRACION_AFILIADOS;
 GO
 ------------------------------------------------------------------------
-
-/*
-CREATE TABLE HELLFISH.Persona (NOMBRE,apellido,tipoDocumento,numeroDocumento,direccion,telefono,email,fechaNacimiento
-	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	tipoPersona int NOT NULL
-)
-GO
-
-INSERT INTO HELLFISH.Persona(NOMBRE,apellido,tipoDocumento,numeroDocumento,direccion,telefono,email,fechaNacimiento,tipoPersona)
- (SELECT DISTINCT Paciente_Nombre, Paciente_Apellido,1,Paciente_Dni,Paciente_Direccion,Paciente_Telefono,Paciente_Mail,Paciente_Fecha_Nac,1 FROM gd_esquema.Maestra
-	WHERE Paciente_Dni IS NOT NULL);
-
-INSERT INTO HELLFISH.Persona(NOMBRE,apellido,tipoDocumento,numeroDocumento,direccion,telefono,email,fechaNacimiento,tipoPersona)
- (SELECT DISTINCT Medico_Nombre, Medico_Apellido,1,Medico_Dni,Medico_Direccion,Medico_Telefono,Medico_Mail,Medico_Fecha_Nac,2 FROM gd_esquema.Maestra
-	WHERE Medico_Dni IS NOT NULL);
-
-INSERT INTO HELLFISH.Persona(NOMBRE,apellido,tipoDocumento,numeroDocumento,direccion,telefono,email,fechaNacimiento,tipoPersona)
-VALUES('Admin','Admin',1,9999999,'Admin',44444444,'Admin@admin.com',GETDATE(),3);
-*/
-
-/*
-CREATE TABLE HELLFISH.Bono (
-	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	idGrupoFamiliar int NOT NULL,
-	idAfiliadoConsumidor int,
-	planMedico numeric(18) NOT NULL,
-	fechaDeImpresion datetime NOT NULL,
-	idVenta int,
-	utilizado bit default 0
-)
-GO
-
-CREATE TABLE HELLFISH.VentaDeBonos (
-	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	fechaDeCompra datetime NOT NULL,
-	idAfiliadoComprador int NOT NULL,
-	planMedico numeric(18) NOT NULL,
-	cantidadBonos int NOT NULL,
-	total numeric(18) NOT NULL,
-
-)
-GO
-
-*/
-/*
-INSERT INTO HELLFISH.VentaDeBonos(fechaDeCompra,idAfiliadoComprador,planMedico,cantidadBonos,total)
-(SELECT Compra_Bono_Fecha,(SELECT id from hellfish.Afiliado where numeroDocumento = Paciente_Dni),Plan_Med_Codigo,1,Plan_Med_Precio_Bono_Consulta from gd_esquema.Maestra where Compra_Bono_Fecha is not null);
-go
-
-SET IDENTITY_INSERT HELLFISH.Bono ON
-INSERT INTO HELLFISH.BONO(id,idGrupoFamiliar,idAfiliadoConsumidor,planMedico,fechaDeImpresion,idVenta)
-(SELECT Bono_Consulta_Numero,(SELECT id from hellfish.Afiliado where numeroDocumento = Paciente_Dni),(SELECT id from hellfish.Afiliado where numeroDocumento = Paciente_Dni),
-Plan_Med_Codigo,Bono_Consulta_Fecha_Impresion,(SELECT id from hellfish.VentaDeBonos where fechaDeCompra=Compra_Bono_Fecha AND idAfiliadoComprador = (SELECT ID FROM HELLFISH.Afiliado WHERE numeroDocumento=Paciente_Dni)) 
-FROM gd_esquema.Maestra
-WHERE Compra_Bono_Fecha IS NOT NULL);
-GO
-
-SET IDENTITY_INSERT HELLFISH.Bono OFF
-GO
-*/
-/*
-CREATE PROCEDURE HELLFISH.Bono
-AS
-BEGIN
-SET IDENTITY_INSERT HELLFISH.Bono ON
-declare @bono as numeric(18,0), @fecha_impr as datetime, @afiliado as numeric(18,0), @plan as numeric(18,0), @precio as numeric(18,0),
-		@fecha_compra as datetime, @grupofamiliar as int
-
-declare C_BONOS cursor for select distinct(Bono_Consulta_Numero), Bono_Consulta_Fecha_Impresion, (SELECT id from hellfish.Afiliado where numeroDocumento = Paciente_Dni), Plan_Med_Codigo,
-								Plan_Med_Precio_Bono_Consulta, Compra_Bono_Fecha
-						 from gd_esquema.Maestra where Compra_Bono_Fecha is not null
-
-OPEN C_BONOS
-FETCH NEXT FROM C_BONOS INTO @bono, @fecha_impr, @afiliado, @plan, @precio, @fecha_compra
-WHILE @@fetch_status = 0
-	BEGIN
-			
-			insert into HELLFISH.VentaDeBonos (fechaDeCompra, idAfiliadoComprador,planMedico, total, cantidadBonos)
-				values (@fecha_compra,@afiliado,@plan, @precio, 1)
-
-			insert into HELLFISH.Bono (ID, fechaDeImpresion, idAfiliadoConsumidor, planMedico, idVenta, idGrupoFamiliar)
-				values (@bono, @fecha_impr, @afiliado, @plan,  SCOPE_IDENTITY(),@afiliado)
-
-		FETCH NEXT FROM C_BONOS INTO @bono, @fecha_impr, @afiliado, @plan, @precio, @fecha_compra
-	END
-CLOSE C_BONOS
-DEALLOCATE C_BONOS
-SET IDENTITY_INSERT HELLFISH.Bono OFF
-
-END
-GO
-
---EXEC HELLFISH.Bono
-GO
-*/
-------------------------------------------------------------------------
 PRINT 'TABLA Bono'
 GO
 
@@ -706,7 +596,7 @@ CREATE TABLE HELLFISH.Bono (
 	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	idGrupoFamiliar int, /* TODO : revisar */
 	idAfiliadoConsumidor int,
-	planMedico numeric(18) NOT NULL,
+	planMedico int NOT NULL,
 	nroConsulta int,
 	idVenta int,
 	utilizado bit default 0
@@ -725,7 +615,7 @@ PRINT 'TABLA SINTOMA'
 GO
 
 CREATE TABLE HELLFISH.Sintoma(
-	id INT IDENTITY PRIMARY KEY,
+	id INT IDENTITY(1,1) PRIMARY KEY,
 	descripcion VARCHAR(255)
 );
 
@@ -735,7 +625,7 @@ CREATE TABLE HELLFISH.Sintoma(
  WHERE Consulta_Sintomas is not null;
  ------------------------------------------------------------------------
 CREATE TABLE HELLFISH.Diagnostico(
-	id INT IDENTITY primary key,
+	id INT IDENTITY(1,1) primary key,
 	descripcion VARCHAR(255),
 	idTurno INT,
 	idCconsulta INT,
@@ -781,18 +671,13 @@ CREATE TABLE HELLFISH.Consulta (
 	idBono int not null
 )
 GO
-/*
-------------------------------------------------------------------------
-INSERT INTO HELLFISH.CONSULTA(sintomas,enfermedades,idTurno)
-(select Consulta_Sintomas,Consulta_Enfermedades,Turno_Numero from gd_esquema.Maestra
-where Consulta_Sintomas is not null and Consulta_Enfermedades is not null and Turno_Numero is not null);
-*/
 
+------------------------------------------------------------------------
 PRINT 'TABLA TURNOS'
 GO
 
 CREATE TABLE HELLFISH.Turnos(
-	id INT IDENTITY PRIMARY KEY,
+	id INT IDENTITY(1,1) PRIMARY KEY,
 	TURNO_NUMERO INT,
 	fecha DATETIME,
 	idProfesional INT,
@@ -808,26 +693,7 @@ INSERT INTO HELLFISH.TURNOS (TURNO_NUMERO,fecha,idAfiliado,idProfesional)
 		WHERE M.Paciente_Dni  = af.numeroDocumento
 		AND M.Medico_Dni  = pr.numeroDocumento;
 GO
-------------------------------------------------------------------------
-/*
-CREATE TABLE HELLFISH.Turno (
-	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	idProfesionalEspecialidad int NOT NULL,
-	fecha datetime NOT NULL,
-	afiliado int
-)
-GO
 
-SET IDENTITY_INSERT HELLFISH.Turno ON
-INSERT INTO HELLFISH.TURNO(ID,idProfesionalEspecialidad,fecha,afiliado)
-(select DISTINCT Turno_Numero,
-	(SELECT PE.ID FROM HELLFISH.PROFESIONALpecialidad PE JOIN HELLFISH.Profesional P ON PE.idProfesional = P.id 
-	WHERE P.numeroDocumento=Medico_Dni AND PE.especialidad=Especialidad_Codigo),
-	fecha,(SELECT id from HELLFISH.Afiliado where numeroDocumento = Paciente_Dni) from gd_esquema.Maestra
-where Turno_Numero is not null); 
-
-SET IDENTITY_INSERT HELLFISH.Turno OFF
-*/
 ------------------------------------------------------------------------
 PRINT 'TABLA AGENDA'
 GO
@@ -839,8 +705,6 @@ CREATE TABLE HELLFISH.AgendaProfesional (
 	idEspecialidad int,
 	fecha datetime,
 	disponible bit default 1, /* para que pueda cancelarla */
-	/*horaDesde time(7) NOT NULL,
-	horaHasta time(7) NOT NULL */
 )
 GO
 
@@ -870,10 +734,10 @@ PRINT 'TABLA CAMBIO DE PLAN'
 GO
 
 CREATE TABLE HELLFISH.CambioDePlan (
-	id int NOT NULL,
+	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	idAfiliado int NOT NULL,
-	planOrigen numeric(18) NOT NULL,
-	planDestino numeric(18) NOT NULL,
+	planOrigen int NOT NULL,
+	planDestino int NOT NULL,
 	fecha datetime NOT NULL,
 	motivo varchar(255),
 )
@@ -1585,10 +1449,9 @@ RETURNS TABLE
 AS
 	RETURN (
     SELECT P.id, P.nroMatricula, P.nombre, P.apellido
-    FROM HELLFISH.ProfesionalEspecialidad EP, HELLFISH.PROFESIONAL P,  HELLFISH.ESPECIALIDAD E
+    FROM  HELLFISH.ProfesionalEspecialidad EP join HELLFISH.PROFESIONAL P on ep.idProfesional=P.id 
+	join HELLFISH.ESPECIALIDAD E on ep.especialidad = e.id
     WHERE E.id = @especialidadCodigo 
-    AND P.id = EP.id 
-    AND E.id = EP.especialidad
 	)
 GO
 ----------------------------------------------------------------------
@@ -1618,8 +1481,10 @@ AS
 		SELECT DISTINCT FORMAT(A.fecha, 'HH:mm') AS FECHA
 		FROM HELLFISH.AgendaProfesional A
 		WHERE A.idEspecialidad = @especialidadId 
-		AND A.idProfesional = @profesionalId 
-		AND FORMAT(A.fecha, 'dd/MM/yyyy') = FORMAT(@fecha, 'dd/MM/yyyy') 
+		AND A.idProfesional = @profesionalId
+		and datepart(day,A.fecha) = datepart(day,CONVERT(datetime,@fecha,103))
+		and datepart(MONTH,A.fecha) = datepart(MONTH,CONVERT(datetime,@fecha,103))
+		and datepart(YEAR,A.fecha) = datepart(YEAR,CONVERT(datetime,@fecha,103))
 		AND A.DISPONIBLE = 1
 	)
 GO
@@ -1631,7 +1496,7 @@ as
 DECLARE
 @afiliado_habilitado bit = null,
 @fecha_agenda datetime = null,
-@err_msg nvarchar(250)
+@err_msg varchar(250)
 
 BEGIN TRY
 BEGIN TRANSACTION
@@ -1651,7 +1516,7 @@ BEGIN TRANSACTION
 		FROM HELLFISH.AgendaProfesional A
 		WHERE A.idEspecialidad = @ESPECIALIDAD_ID 
 		AND A.idProfesional = @PROFESIONAL_ID 
-		AND FORMAT(A.fecha, 'dd/MM/yyyy HH:mm') = FORMAT(@FECHA, 'dd/MM/yyyy HH:mm') 
+		AND A.fecha = @FECHA 
 		AND A.DISPONIBLE = 1
 
 	IF (@fecha_agenda is null) BEGIN
@@ -1696,26 +1561,34 @@ as
 DECLARE
 @current_date datetime,
 @final_date datetime,
-@err_msg nvarchar(250)
-
+@err_msg nvarchar(250),
+@ya_ocupado int
 BEGIN TRY
 BEGIN TRANSACTION
+	select @ya_ocupado = count(id) from HELLFISH.AgendaProfesional 
+	where idProfesional = @PROFESIONAL_COD
+	and @FECHA_DESDE < fecha
+	and @FECHA_HASTA > fecha
+	group by id
 
+	if (@ya_ocupado > 0) RAISERROR('El profesional ya esta ocupado en este rango de dias.Elija otro o cancele primero',14,1)
+		
 	while @FECHA_DESDE <= @FECHA_HASTA begin
         
-		if (@DIA = DATEPART(WEEKDAY, @FECHA_DESDE)) begin
-			select @current_date = CONVERT(DATETIME, CAST(DATEPART(DAY, @FECHA_DESDE) as varchar)
-				+'/'+CAST(DATEPART(MONTH, @FECHA_DESDE) as varchar)+'/'
+		if (@DIA = DATEPART(WEEKDAY, @FECHA_DESDE)) 
+		begin
+			select @current_date = CONVERT(DATETIME, CAST(DATEPART(MONTH, @FECHA_DESDE) as varchar)
+				+'/'+CAST(DATEPART(DAY, @FECHA_DESDE) as varchar)+'/'
 				+CAST(DATEPART(YEAR, @FECHA_DESDE) as varchar)
 				+' '+CAST(@DESDE_HORA as varchar)+':'+CAST(@DESDE_MIN as varchar));
 		
-			select @final_date = CONVERT(DATETIME, CAST(DATEPART(DAY, @FECHA_DESDE) as varchar)
-				+'/'+CAST(DATEPART(MONTH, @FECHA_DESDE) as varchar)+'/'
+			select @final_date = CONVERT(DATETIME, CAST(DATEPART(MONTH, @FECHA_DESDE) as varchar)
+				+'/'+CAST(DATEPART(DAY, @FECHA_DESDE) as varchar)+'/'
 				+CAST(DATEPART(YEAR, @FECHA_DESDE) as varchar)
 				+' '+CAST(@HASTA_HORA as varchar)+':'+CAST(@HASTA_MIN as varchar));
 
-			while @current_date <= @final_date begin
-			
+			while @current_date <= @final_date 
+			begin
 				insert into HELLFISH.AgendaProfesional (fecha, idProfesional, idEspecialidad, DISPONIBLE) 
 					VALUES (@current_date, @PROFESIONAL_COD, @ID_ESPECIALIDAD, 1);
 
@@ -1806,7 +1679,7 @@ BEGIN TRANSACTION
 	
 	-- Agrego el motivo de cancelacion
 	INSERT INTO HELLFISH.CANCELACION
-           (tipo,detalle,responsable,id)
+           (tipo,detalle,responsable,idTurno)
      VALUES
            (@MOTIVO_ID, @DETALLE, @usuario_nombre , @TURNO_ID)
 
@@ -1857,8 +1730,7 @@ BEGIN TRANSACTION
 	END
 
 	-- Agrego el motivo de la cancelacion A LOS TURNOS QUE YA SE DIERON
-	INSERT INTO HELLFISH.CANCELACION
-           (tipo,detalle,responsable,id)
+	INSERT INTO HELLFISH.CANCELACION(tipo,detalle,responsable,idTurno)
     (SELECT @MOTIVO_ID, @DETALLE, @usuario_nombre, T.id FROM  HELLFISH.TURNOS T
 		WHERE T.fecha >= @FECHA_DESDE AND T.fecha <= @fecha_final
 		AND T.idProfesional = @PROFESIONAL_ID
@@ -1900,7 +1772,7 @@ CREATE FUNCTION HELLFISH.OBTENER_FECHAS_TURNO_PROFESIONAL_ESPECIALIDAD(
 RETURNS TABLE
 AS
 	RETURN (
-		SELECT DISTINCT FORMAT(T.fecha, 'dd/MM/yyyy') AS FECHA
+		SELECT DISTINCT FORMAT(T.fecha, 'MM/dd/yyyy') AS FECHA
 		FROM HELLFISH.AgendaProfesional A, HELLFISH.TURNOS T
 		WHERE A.idEspecialidad = @especialidadId 
 		AND A.idProfesional = @profesionalId 
@@ -2107,3 +1979,100 @@ begin catch
 end catch;
 go
 -------------------------------------------------------------------------------
+
+-- Creacion de constraints de FK
+
+ALTER TABLE HELLFISH.AgendaProfesional ADD CONSTRAINT FK_AgendaProfesional_Profesional
+	FOREIGN KEY (idProfesional) REFERENCES HELLFISH.Profesional(id)
+GO
+ALTER TABLE HELLFISH.AgendaProfesional ADD CONSTRAINT FK_AgendaProfesional_Especialidad
+	FOREIGN KEY (idEspecialidad) REFERENCES HELLFISH.Especialidad(id)
+GO
+
+ALTER TABLE HELLFISH.VentaDeBonos ADD CONSTRAINT FK_VentaDeBonos_Afiliado
+	FOREIGN KEY (idAfiliadoComprador) REFERENCES HELLFISH.Afiliado (id)
+GO
+
+ALTER TABLE HELLFISH.CambioDePlan ADD CONSTRAINT FK_CambioDePlan_Afiliado
+	FOREIGN KEY (idAfiliado) REFERENCES HELLFISH.Afiliado (id)
+GO
+
+ALTER TABLE HELLFISH.CambioDePlan ADD CONSTRAINT FK_CambioDePlan_PlanMedico
+	FOREIGN KEY (planOrigen) REFERENCES HELLFISH.PlanMedico (id)
+GO
+
+ALTER TABLE HELLFISH.CambioDePlan ADD CONSTRAINT FK_CambioDePlan_PlanMedicoOrigen
+	FOREIGN KEY (planDestino) REFERENCES HELLFISH.PlanMedico (id)
+GO
+
+ALTER TABLE HELLFISH.RolFuncionalidad ADD CONSTRAINT FK_RolFuncionalidad_Funcionalidad
+	FOREIGN KEY (idFuncionalidad) REFERENCES HELLFISH.Funcionalidad (id)
+GO
+
+ALTER TABLE HELLFISH.RolFuncionalidad ADD CONSTRAINT FK_RolFuncionalidad_Rol
+	FOREIGN KEY (idRol) REFERENCES HELLFISH.Rol (id)
+GO
+
+ALTER TABLE HELLFISH.UsuarioRol ADD CONSTRAINT FK_UsuarioRol_Rol
+	FOREIGN KEY (idRol) REFERENCES HELLFISH.Rol (id)
+GO
+
+ALTER TABLE HELLFISH.UsuarioRol ADD CONSTRAINT FK_UsuarioRol_Usuario
+	FOREIGN KEY (idUsuario) REFERENCES HELLFISH.Usuario (id)
+GO
+
+ALTER TABLE HELLFISH.Bono ADD CONSTRAINT FK_Bono_VentaDeBonos
+	FOREIGN KEY (idVenta) REFERENCES HELLFISH.VentaDeBonos (id)
+GO
+
+ALTER TABLE HELLFISH.Bono ADD CONSTRAINT FK_Bono_GrupoFamiliar
+	FOREIGN KEY (idGrupoFamiliar) REFERENCES HELLFISH.GrupoFamiliar (id)
+GO
+
+ALTER TABLE HELLFISH.Bono ADD CONSTRAINT FK_Bono_PlanMedico
+	FOREIGN KEY (planMedico) REFERENCES HELLFISH.PlanMedico (id)
+GO
+
+ALTER TABLE HELLFISH.Consulta ADD CONSTRAINT FK_Consulta_Turno
+	FOREIGN KEY (idTurno) REFERENCES HELLFISH.Turnos (id)
+GO
+
+ALTER TABLE HELLFISH.Cancelacion ADD CONSTRAINT FK_Cancelacion_TipoCancelacion
+	FOREIGN KEY (tipo) REFERENCES HELLFISH.TipoCancelacion (id)
+GO
+
+ALTER TABLE HELLFISH.Cancelacion ADD CONSTRAINT FK_Cancelacion_Turno
+	FOREIGN KEY (idTurno) REFERENCES HELLFISH.Turnos (id)
+GO
+
+ALTER TABLE HELLFISH.Turnos ADD CONSTRAINT FK_Turno_Afiliado
+	FOREIGN KEY (idAfiliado) REFERENCES HELLFISH.Afiliado (id)
+GO
+
+ALTER TABLE HELLFISH.Turnos ADD CONSTRAINT FK_Turno_ProfesionalEspecialidad
+	FOREIGN KEY (idProfesional) REFERENCES HELLFISH.Profesional (id)
+GO
+
+ALTER TABLE HELLFISH.Especialidad ADD CONSTRAINT FK_Especialidad_TipoEspecialidad
+	FOREIGN KEY (tipo) REFERENCES HELLFISH.TipoEspecialidad (id)
+GO
+
+ALTER TABLE HELLFISH.ProfesionalEspecialidad ADD CONSTRAINT FK_ProfesionalEspecialidad_Especialidad
+	FOREIGN KEY (especialidad) REFERENCES HELLFISH.Especialidad (id)
+GO
+
+ALTER TABLE HELLFISH.ProfesionalEspecialidad ADD CONSTRAINT FK_ProfesionalEspecialidad_Profesional
+	FOREIGN KEY (idProfesional) REFERENCES HELLFISH.Profesional (id)
+GO
+
+ALTER TABLE HELLFISH.Afiliado ADD CONSTRAINT FK_Afilidado_EstadoCivil
+	FOREIGN KEY (idEstadoCivil) REFERENCES HELLFISH.EstadoCivil (id)
+GO
+
+ALTER TABLE HELLFISH.Afiliado ADD CONSTRAINT FK_Afilidado_GrupoFamiliar
+	FOREIGN KEY (grupoFamiliar) REFERENCES HELLFISH.GrupoFamiliar (id)
+GO
+
+ALTER TABLE HELLFISH.Afiliado ADD CONSTRAINT FK_Afilidado_PlanMedico
+	FOREIGN KEY (planMedico) REFERENCES HELLFISH.PlanMedico (id)
+GO

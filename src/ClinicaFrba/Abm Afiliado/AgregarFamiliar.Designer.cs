@@ -36,17 +36,17 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(256, 13);
+            this.label1.Size = new System.Drawing.Size(213, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "¿Desea agregar a un familiar como afiliado?";
             // 
             // no
             // 
-            this.no.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.no.Location = new System.Drawing.Point(162, 49);
+            this.no.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.no.Location = new System.Drawing.Point(32, 53);
             this.no.Name = "no";
             this.no.Size = new System.Drawing.Size(75, 23);
             this.no.TabIndex = 4;
@@ -56,8 +56,8 @@
             // 
             // si
             // 
-            this.si.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.si.Location = new System.Drawing.Point(27, 49);
+            this.si.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.si.Location = new System.Drawing.Point(166, 53);
             this.si.Name = "si";
             this.si.Size = new System.Drawing.Size(75, 23);
             this.si.TabIndex = 3;

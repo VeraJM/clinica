@@ -44,8 +44,8 @@ namespace ClinicaFrba.Custom_Controls
                 string functionality = functionalities[i];
                 Button button = new Button();
                 button.Text = functionality;
-                button.Location = new System.Drawing.Point(40, i * 22);
-                button.Size = new Size(300, 20);
+                button.Location = new System.Drawing.Point(40, i * 32);
+                button.Size = new Size(250, 30);
                 button.Click += (s, e) =>
                 {
                     OnFunctionalityClicked(functionality);

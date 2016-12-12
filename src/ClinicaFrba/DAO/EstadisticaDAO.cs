@@ -33,11 +33,11 @@ namespace ClinicaFrba.DAO
             }
             var tabla = new DataTable();
             SqlCommand comando = armarFuncionTabla("ESTADISTICA_ESP_MAS_CANCELADAS");
-            comando = agregarParamFuncion(comando, filtroEstadistica.Anio.ToString());
-            comando = agregarParamFuncion(comando, mes_inicial.ToString());
-            comando = agregarParamFuncion(comando, mes_final.ToString());
-            comando = agregarStringParamFuncion(comando, filtro_responsable_1);
-            comando = agregarStringParamFuncion(comando, filtro_responsable_2);
+            comando = addParamFuncion(comando, filtroEstadistica.Anio.ToString());
+            comando = addParamFuncion(comando, mes_inicial.ToString());
+            comando = addParamFuncion(comando, mes_final.ToString());
+            comando = addStringParamFuncion(comando, filtro_responsable_1);
+            comando = addStringParamFuncion(comando, filtro_responsable_2);
             tabla = armarTablaEstCancelacion(comando);
             return tabla;
         }
@@ -76,10 +76,10 @@ namespace ClinicaFrba.DAO
 
             var tabla = new DataTable();
             SqlCommand comando = armarFuncionTabla("PROF_MAS_CONSULTADOS");
-            comando = agregarParamFuncion(comando, filtro.Anio.ToString());
-            comando = agregarParamFuncion(comando, mes_inicial.ToString());
-            comando = agregarParamFuncion(comando, mes_final.ToString());
-            comando = agregarParamFuncion(comando, filtro.Plan.ToString());
+            comando = addParamFuncion(comando, filtro.Anio.ToString());
+            comando = addParamFuncion(comando, mes_inicial.ToString());
+            comando = addParamFuncion(comando, mes_final.ToString());
+            comando = addParamFuncion(comando, filtro.Plan.ToString());
             tabla = armarTablaProfMasConsultados(comando);
             return tabla;
         }
@@ -122,11 +122,11 @@ namespace ClinicaFrba.DAO
 
             var tabla = new DataTable();
             SqlCommand comando = armarFuncionTabla("PROF_MENOS_HORAS");
-            comando = agregarParamFuncion(comando, filtro.Plan.ToString());
-            comando = agregarParamFuncion(comando, filtro.Especialidad.ToString());
-            comando = agregarParamFuncion(comando, filtro.Anio.ToString());
-            comando = agregarParamFuncion(comando, mes_inicial.ToString());
-            comando = agregarParamFuncion(comando, mes_final.ToString());
+            comando = addParamFuncion(comando, filtro.Plan.ToString());
+            comando = addParamFuncion(comando, filtro.Especialidad.ToString());
+            comando = addParamFuncion(comando, filtro.Anio.ToString());
+            comando = addParamFuncion(comando, mes_inicial.ToString());
+            comando = addParamFuncion(comando, mes_final.ToString());
             tabla = armarTablaProfMenosHoras(comando);
             return tabla;
         }
@@ -169,9 +169,9 @@ namespace ClinicaFrba.DAO
 
             var tabla = new DataTable();
             SqlCommand comando = armarFuncionTabla("ESTADISTICA_ESP_MAS_CONSULTADAS");
-            comando = agregarParamFuncion(comando, filtro.Anio.ToString());
-            comando = agregarParamFuncion(comando, mes_inicial.ToString());
-            comando = agregarParamFuncion(comando, mes_final.ToString());
+            comando = addParamFuncion(comando, filtro.Anio.ToString());
+            comando = addParamFuncion(comando, mes_inicial.ToString());
+            comando = addParamFuncion(comando, mes_final.ToString());
             tabla = armarTablaEspecMasBonos(comando);
             return tabla;
         }
@@ -204,9 +204,9 @@ namespace ClinicaFrba.DAO
 
             var tabla = new DataTable();
             SqlCommand comando = armarFuncionTabla("AFIL_MAYOR_BONOS");
-            comando = agregarParamFuncion(comando, filtro.Anio.ToString());
-            comando = agregarParamFuncion(comando, mes_inicial.ToString());
-            comando = agregarParamFuncion(comando, mes_final.ToString());
+            comando = addParamFuncion(comando, filtro.Anio.ToString());
+            comando = addParamFuncion(comando, mes_inicial.ToString());
+            comando = addParamFuncion(comando, mes_final.ToString());
             tabla = armarTablaAfilMasBonos(comando);
             return tabla;
         }

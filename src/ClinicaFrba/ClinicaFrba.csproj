@@ -179,7 +179,6 @@
     <Compile Include="DAO\AfiliadoDAO.cs" />
     <Compile Include="DAO\BonoDAO.cs" />
     <Compile Include="DAO\DataAccessObject.cs" />
-    <Compile Include="DAO\DetalleDAO.cs" />
     <Compile Include="DAO\DiagnosticoDAO.cs" />
     <Compile Include="DAO\EspecialidadDAO.cs" />
     <Compile Include="DAO\EstadisticaDAO.cs" />
@@ -284,11 +283,65 @@
     <Compile Include="Utils\FechaSistema.cs" />
     <Compile Include="Utils\FunctionalitiesHelper.cs" />
     <Compile Include="Utils\Hasher.cs" />
+    <EmbeddedResource Include="Abm Afiliado\ABMAfiliado.resx">
+      <DependentUpon>ABMAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Afiliado\AgregarConyuge.resx">
+      <DependentUpon>AgregarConyuge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Afiliado\AgregarFamiliar.resx">
+      <DependentUpon>AgregarFamiliar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Abm Afiliado\AltaAfiliado.resx">
       <DependentUpon>AltaAfiliado.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Abm Afiliado\BajaAfiliado.resx">
+      <DependentUpon>BajaAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Afiliado\ModificacionAfiliado.resx">
+      <DependentUpon>ModificacionAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Afiliado\ModificarAfiliado.resx">
+      <DependentUpon>ModificarAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Planes\CambioPlan.resx">
+      <DependentUpon>CambioPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\ABMRol.resx">
+      <DependentUpon>ABMRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\AltaRol.resx">
+      <DependentUpon>AltaRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\BajaRol.resx">
+      <DependentUpon>BajaRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\ModificacionRol.resx">
+      <DependentUpon>ModificacionRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\RolAModificar.resx">
+      <DependentUpon>RolAModificar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\CancelarAgenda.resx">
+      <DependentUpon>CancelarAgenda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\CancelarAtencion.resx">
+      <DependentUpon>CancelarAtencion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compra Bono\ComprarBonos.resx">
+      <DependentUpon>ComprarBonos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custom Controls\LogInControl.resx">
+      <DependentUpon>LogInControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Listados\SeleccionListado.resx">
       <DependentUpon>SeleccionListado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pedir Turno\PedirTurno.resx">
+      <DependentUpon>PedirTurno.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -299,6 +352,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Registrar Agenta Medico\RegistrarAgenda.resx">
+      <DependentUpon>RegistrarAgenda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro Llegada\RegistroLlegada.resx">
+      <DependentUpon>RegistroLlegada.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -28,10 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.functionalitiesControl = new ClinicaFrba.Custom_Controls.FunctionalitiesControl();
             this.roleSelectionControl = new ClinicaFrba.Custom_Controls.RoleSelectionControl();
             this.logInControl = new ClinicaFrba.Custom_Controls.LogInControl();
-            this.functionalitiesControl = new ClinicaFrba.Custom_Controls.FunctionalitiesControl();
             this.SuspendLayout();
+            // 
+            // functionalitiesControl
+            // 
+            this.functionalitiesControl.Location = new System.Drawing.Point(7, 30);
+            this.functionalitiesControl.Name = "functionalitiesControl";
+            this.functionalitiesControl.Size = new System.Drawing.Size(400, 350);
+            this.functionalitiesControl.TabIndex = 2;
+            this.functionalitiesControl.Visible = false;
             // 
             // roleSelectionControl
             // 
@@ -48,25 +56,16 @@
             this.logInControl.Size = new System.Drawing.Size(326, 222);
             this.logInControl.TabIndex = 0;
             // 
-            // functionalitiesControl
-            // 
-            this.functionalitiesControl.Location = new System.Drawing.Point(7, 30);
-            this.functionalitiesControl.Name = "functionalitiesControl";
-            this.functionalitiesControl.Size = new System.Drawing.Size(400, 350);
-            this.functionalitiesControl.TabIndex = 2;
-            this.functionalitiesControl.Visible = false;
-            // 
-            // 
-            // LogInForm
+            // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(387, 278);
+            this.ClientSize = new System.Drawing.Size(383, 362);
             this.Controls.Add(this.functionalitiesControl);
             this.Controls.Add(this.roleSelectionControl);
             this.Controls.Add(this.logInControl);
-            this.Name = "LogInForm";
-            this.Text = "Login";
+            this.Name = "LoginForm";
+            this.Text = "Clinica";
             this.ResumeLayout(false);
 
         }

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Configuration;
-using System.Configuration;
 using System.Data;
 using System.Collections.Specialized;
 
@@ -32,7 +31,7 @@ namespace ClinicaFrba.DAO
             return conexion;
         }
 
-        public SqlCommand armarSP(String nombre)
+        public SqlCommand SP(String nombre)
         {
             setearComando(nombre);
             comando.CommandType = CommandType.StoredProcedure;
@@ -49,15 +48,15 @@ namespace ClinicaFrba.DAO
         }
         public SqlCommand armarFuncionTexto(String nombre)
         {
-            return armarFuncion("select ", nombre);
+            return Funcion("select ", nombre);
         }
 
         public SqlCommand armarFuncionTabla(String nombre)
         {
-            return armarFuncion("select * from", nombre);
+            return Funcion("select * from", nombre);
         }
 
-        public SqlCommand armarFuncion(string texto, String nombre)
+        public SqlCommand Funcion(string texto, String nombre)
         {
             setearComando(nombre);
             comando.CommandText = texto + "[GD2C2016].[HELLFISH].[" + nombre + "] (";
@@ -65,13 +64,13 @@ namespace ClinicaFrba.DAO
             return comando;
         }
 
-        public SqlCommand agregarParametroStringSP(SqlCommand com, String variable, String valor)
+        public SqlCommand addParametroStringSP(SqlCommand com, String variable, String valor)
         {
             com.Parameters.AddWithValue(variable, valor);
             return com;
         }
 
-        public SqlCommand agregarParametroDateTimeSP(SqlCommand com, String variable, DateTime valor)
+        public SqlCommand addParametroDateTimeSP(SqlCommand com, String variable, DateTime valor)
         {
             SqlParameter parameter = com.Parameters.Add(variable,
                 System.Data.SqlDbType.DateTime);
@@ -80,13 +79,13 @@ namespace ClinicaFrba.DAO
             return com;
         }
 
-        public SqlCommand agregarParametroIntSP(SqlCommand com, String variable, int valor)
+        public SqlCommand addParametroIntSP(SqlCommand com, String variable, int valor)
         {
             com.Parameters.AddWithValue(variable, Convert.ToInt32(valor));
             return com;
         }
 
-        public SqlCommand agregarParametroDatetimeSP(SqlCommand com, String variable, DateTime? valor)
+        public SqlCommand addParametroDatetimeSP(SqlCommand com, String variable, DateTime? valor)
         {
             SqlParameter parameter = com.Parameters.Add(variable, System.Data.SqlDbType.DateTime);
             if (valor != null)
@@ -127,17 +126,17 @@ namespace ClinicaFrba.DAO
             return lista;
         }
 
-        public SqlCommand agregarDateTimeParamFuncion(SqlCommand func, DateTime fecha)
+        public SqlCommand addDateTimeParamFuncion(SqlCommand func, DateTime fecha)
         {
-            return agregarParamFuncion(func, "'" + fecha.ToString("yyyy-MM-dd hh:mm:ss") + "'");
+            return addParamFuncion(func, "'" + fecha.ToString("yyyy-MM-dd hh:mm:ss") + "'");
         }
 
-        public SqlCommand agregarStringParamFuncion(SqlCommand func, string nombre)
+        public SqlCommand addStringParamFuncion(SqlCommand func, string nombre)
         {
-            return agregarParamFuncion(func, "'" + nombre + "'");
+            return addParamFuncion(func, "'" + nombre + "'");
         }
 
-        public SqlCommand agregarParamFuncion(SqlCommand func, string nombre)
+        public SqlCommand addParamFuncion(SqlCommand func, string nombre)
         {
             if (func.CommandText.EndsWith("("))
             {

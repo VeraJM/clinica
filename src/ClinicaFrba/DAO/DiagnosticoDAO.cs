@@ -33,20 +33,20 @@ namespace ClinicaFrba.DAO
 
         public void guardarDiagnostico(Diagnostico diag, List<Sintoma> sintomas)
         {
-            SqlCommand comando = armarSP("AGREGAR_DIAGNOSTICO");
+            SqlCommand comando = SP("AGREGAR_DIAGNOSTICO");
             comando.Parameters.Add("@DIAG_COD", SqlDbType.Int).Direction = ParameterDirection.Output;
-            agregarParametroStringSP(comando, "@DIAG_DESC", diag.Descripcion);
-            agregarParametroIntSP(comando, "@DIAG_TURNO_COD", diag.TurnoCod);
-            agregarParametroDatetimeSP(comando, "@DIAG_FECHA", diag.Fecha);
+            addParametroStringSP(comando, "@DIAG_DESC", diag.Descripcion);
+            addParametroIntSP(comando, "@DIAG_TURNO_COD", diag.TurnoCod);
+            addParametroDatetimeSP(comando, "@DIAG_FECHA", diag.Fecha);
             comando.ExecuteNonQuery();
             diag.DiagnosticoId = Convert.ToInt32(comando.Parameters["@DIAG_COD"].Value);
 
             foreach (Sintoma sint in sintomas)
             {
                 comando.Parameters.Clear();
-                comando = armarSP("AGREGAR_SINTOMA_DIAGNOSTICO");
-                agregarParametroIntSP(comando, "@DIAG_COD", diag.DiagnosticoId);
-                agregarParametroIntSP(comando, "@SINTOMA_COD", sint.Codigo);
+                comando = SP("AGREGAR_SINTOMA_DIAGNOSTICO");
+                addParametroIntSP(comando, "@DIAG_COD", diag.DiagnosticoId);
+                addParametroIntSP(comando, "@SINTOMA_COD", sint.Codigo);
                 comando.ExecuteNonQuery();
             }
 

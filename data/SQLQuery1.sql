@@ -578,6 +578,12 @@ order by idProfesional;
 select * from HAKUNADATATA.Profesionales
 
 select * from HELLFISH.AgendaProfesional
+order by id desc;
+
+select * from HELLFISH.AgendaProfesional
+where idProfesional=1
+order by id desc;
+update HELLFISH.AgendaProfesional set disponible=1
 select * from HAKUNADATATA.AGENDAS where AGENDA_DISPONIBLE = 1
 
 DROP TABLE HELLFISH.GrupoFamiliar
@@ -585,3 +591,23 @@ GO
 
 drop TABLE HELLFISH.Cancelacion
 GO
+
+drop procedure CREATE PROCEDURE HELLFISH.SOLICITAR_TURNO
+
+/*
+exec hellfish.REGISTRAR_AGENDA_PROFESIONAL
+@PROFESIONAL_COD =1, @ID_ESPECIALIDAD=10018, @DIA=12,
+@DESDE_HORA=8, @DESDE_MIN=30, @HASTA_HORA INT, @HASTA_MIN INT,
+@FECHA_DESDE datetime, @FECHA_HASTA datetime  
+)go*/
+
+select HELLFISH.OBTENER_HORAS_PROFESIONAL_ESPECIALIDAD( @profesionalId = 1 ,
+  @especialidadId = 10018,
+  @fecha = CONVERT(datetime,"7/29/2015",101)
+
+select * from HELLFISH.OBTENER_HORAS_PROFESIONAL_ESPECIALIDAD(1 ,
+  10018,
+  CONVERT(datetime,'7/29/2015',101))
+
+  SELECT DISTINCT FORMAT(A.fecha, 'HH:mm') AS FECHA
+		FROM HELLFISH.AgendaProfesional A

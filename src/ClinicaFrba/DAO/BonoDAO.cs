@@ -14,10 +14,10 @@ namespace ClinicaFrba.DAO
 
         public void ComprarBono(int numeroAfiliado, int cantidad)
         {
-            SqlCommand comando = armarSP("COMPRAR_BONO");
-            agregarParametroStringSP(comando, "@AFILIADO_NRO", numeroAfiliado.ToString());
-            agregarParametroStringSP(comando, "@CANTIDAD", cantidad.ToString());
-            agregarParametroDateTimeSP(comando, "@FECHA", DateTime.Now);
+            SqlCommand comando = SP("COMPRAR_BONO");
+            addParametroStringSP(comando, "@AFILIADO_NRO", numeroAfiliado.ToString());
+            addParametroStringSP(comando, "@CANTIDAD", cantidad.ToString());
+            addParametroDateTimeSP(comando, "@FECHA", DateTime.Now);
 
             comando.ExecuteNonQuery();
         }
@@ -25,7 +25,7 @@ namespace ClinicaFrba.DAO
         public List<Bono> getBonosAfiliado(int afiliadoId)
         {
             SqlCommand func = armarFuncionTabla("OBTENER_BONOS_AFILIADOS");
-            func = agregarParamFuncion(func, afiliadoId.ToString());
+            func = addParamFuncion(func, afiliadoId.ToString());
 
             List<Bono> lista = new List<Bono>();
             SqlDataReader reader;

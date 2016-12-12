@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using ClinicaFrba.Model;
+using System.Globalization;
 
 namespace ClinicaFrba.DAO
 {
@@ -15,7 +16,7 @@ namespace ClinicaFrba.DAO
         public Profesional buscarProfesional(Int32 codigoUsuario)
         {
             SqlCommand func = armarFuncionTabla("OBTENER_PROFESIONAL");
-            func = agregarStringParamFuncion(func, codigoUsuario.ToString());
+            func = addStringParamFuncion(func, codigoUsuario.ToString());
             Profesional profesional = armarProfesional(func);
 
             if (profesional != null)
@@ -56,7 +57,7 @@ namespace ClinicaFrba.DAO
         public List<Especialidad> getEspecialidades(Int32 codigoUsuario)
         {
             SqlCommand func = armarFuncionTabla("OBTENER_ESPECIALIDADES_PROFESIONAL");
-            func = agregarStringParamFuncion(func, codigoUsuario.ToString());
+            func = addStringParamFuncion(func, codigoUsuario.ToString());
 
             List<Especialidad> lista = new List<Especialidad>();
             SqlDataReader reader;
@@ -78,7 +79,7 @@ namespace ClinicaFrba.DAO
         public List<Profesional> getProfesionales(Int32 codigoEpecialidad)
         {
             SqlCommand func = armarFuncionTabla("OBTENER_PROFESIONALES_ESPECIALIDAD");
-            func = agregarStringParamFuncion(func, codigoEpecialidad.ToString());
+            func = addStringParamFuncion(func, codigoEpecialidad.ToString());
 
             List<Profesional> lista = new List<Profesional>();
             SqlDataReader reader;
@@ -105,8 +106,8 @@ namespace ClinicaFrba.DAO
         public List<string> getFechasDisponibles(int profesionalId, int especialidadId)
         {
             SqlCommand func = armarFuncionTabla("OBTENER_FECHAS_PROFESIONAL_ESPECIALIDAD");
-            func = agregarParamFuncion(func, profesionalId.ToString());
-            func = agregarParamFuncion(func, especialidadId.ToString());
+            func = addParamFuncion(func, profesionalId.ToString());
+            func = addParamFuncion(func, especialidadId.ToString());
 
 
             List<String> lista = new List<String>();
@@ -127,9 +128,9 @@ namespace ClinicaFrba.DAO
         public List<string> getHorasDisponibles(int profesionalId, int especialidadId, string fecha)
         {
             SqlCommand func = armarFuncionTabla("OBTENER_HORAS_PROFESIONAL_ESPECIALIDAD");
-            func = agregarParamFuncion(func, profesionalId.ToString());
-            func = agregarParamFuncion(func, especialidadId.ToString());
-            func = agregarStringParamFuncion(func, fecha);
+            func = addParamFuncion(func, profesionalId.ToString());
+            func = addParamFuncion(func, especialidadId.ToString());
+            func = addDateTimeParamFuncion(func, DateTime.Parse(fecha));
 
 
             List<String> lista = new List<String>();
@@ -149,11 +150,11 @@ namespace ClinicaFrba.DAO
 
         public void solicitarTurno(int afiliadoId, int profesionalId, int especialidadId, string fecha)
         {
-            SqlCommand comando = armarSP("SOLICITAR_TURNO");
-            agregarParametroIntSP(comando, "@AFILIADO_ID", afiliadoId);
-            agregarParametroIntSP(comando, "@PROFESIONAL_ID", profesionalId);
-            agregarParametroIntSP(comando, "@ESPECIALIDAD_ID", especialidadId);
-            agregarParametroStringSP(comando, "@FECHA", fecha);
+            SqlCommand comando = SP("SOLICITAR_TURNO");
+            addParametroIntSP(comando, "@AFILIADO_ID", afiliadoId);
+            addParametroIntSP(comando, "@PROFESIONAL_ID", profesionalId);
+            addParametroIntSP(comando, "@ESPECIALIDAD_ID", especialidadId);
+            addParametroDatetimeSP(comando, "@FECHA", DateTime.Parse(fecha));
 
             comando.ExecuteNonQuery();
         }
@@ -161,16 +162,16 @@ namespace ClinicaFrba.DAO
         public void registrarAgendaDia(int profesionalId, int especialidadId,
             int dia, int desdeHora, int desdeMinuto, int hastaHora, int hastaMinuto, DateTime desdeFecha, DateTime hastaFecha)
         {
-            SqlCommand comando = armarSP("REGISTRAR_AGENDA_PROFESIONAL");
-            agregarParametroIntSP(comando, "@PROFESIONAL_COD", profesionalId);
-            agregarParametroIntSP(comando, "@ID_ESPECIALIDAD", especialidadId);
-            agregarParametroIntSP(comando, "@DIA", dia);
-            agregarParametroIntSP(comando, "@DESDE_HORA", desdeHora);
-            agregarParametroIntSP(comando, "@DESDE_MIN", desdeMinuto);
-            agregarParametroIntSP(comando, "@HASTA_HORA", hastaHora);
-            agregarParametroIntSP(comando, "@HASTA_MIN", hastaMinuto);
-            agregarParametroDatetimeSP(comando, "@FECHA_DESDE", desdeFecha);
-            agregarParametroDatetimeSP(comando, "@FECHA_HASTA", hastaFecha);
+            SqlCommand comando = SP("REGISTRAR_AGENDA_PROFESIONAL");
+            addParametroIntSP(comando, "@PROFESIONAL_COD", profesionalId);
+            addParametroIntSP(comando, "@ID_ESPECIALIDAD", especialidadId);
+            addParametroIntSP(comando, "@DIA", dia);
+            addParametroIntSP(comando, "@DESDE_HORA", desdeHora);
+            addParametroIntSP(comando, "@DESDE_MIN", desdeMinuto);
+            addParametroIntSP(comando, "@HASTA_HORA", hastaHora);
+            addParametroIntSP(comando, "@HASTA_MIN", hastaMinuto);
+            addParametroDatetimeSP(comando, "@FECHA_DESDE", desdeFecha);
+            addParametroDatetimeSP(comando, "@FECHA_HASTA", hastaFecha);
 
             comando.ExecuteNonQuery();
         }
@@ -178,8 +179,8 @@ namespace ClinicaFrba.DAO
         public List<string> getFechasConTurno(int profesionalId, int especialidadId)
         {
             SqlCommand func = armarFuncionTabla("OBTENER_FECHAS_TURNO_PROFESIONAL_ESPECIALIDAD");
-            func = agregarParamFuncion(func, profesionalId.ToString());
-            func = agregarParamFuncion(func, especialidadId.ToString());
+            func = addParamFuncion(func, profesionalId.ToString());
+            func = addParamFuncion(func, especialidadId.ToString());
 
 
             List<String> lista = new List<String>();
@@ -200,9 +201,9 @@ namespace ClinicaFrba.DAO
         public List<Turno> getHorasConTurno(int profesionalId, int especialidadId, string fecha)
         {
             SqlCommand func = armarFuncionTabla("OBTENER_TURNOS_PROFESIONAL_ESPECIALIDAD");
-            func = agregarParamFuncion(func, profesionalId.ToString());
-            func = agregarParamFuncion(func, especialidadId.ToString());
-            func = agregarStringParamFuncion(func, fecha);
+            func = addParamFuncion(func, profesionalId.ToString());
+            func = addParamFuncion(func, especialidadId.ToString());
+            func = addStringParamFuncion(func, fecha);
 
 
             List<Turno> lista = new List<Turno>();

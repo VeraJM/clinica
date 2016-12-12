@@ -35,8 +35,8 @@
             // 
             // si
             // 
-            this.si.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.si.Location = new System.Drawing.Point(15, 55);
+            this.si.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.si.Location = new System.Drawing.Point(162, 48);
             this.si.Name = "si";
             this.si.Size = new System.Drawing.Size(75, 23);
             this.si.TabIndex = 0;
@@ -46,8 +46,8 @@
             // 
             // no
             // 
-            this.no.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.no.Location = new System.Drawing.Point(189, 55);
+            this.no.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.no.Location = new System.Drawing.Point(16, 48);
             this.no.Name = "no";
             this.no.Size = new System.Drawing.Size(75, 23);
             this.no.TabIndex = 1;
@@ -58,10 +58,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 23);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(16, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(263, 13);
+            this.label1.Size = new System.Drawing.Size(221, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "¿Desea agregar a su conyuge como afiliado?";
             // 
@@ -69,7 +69,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(290, 95);
+            this.ClientSize = new System.Drawing.Size(263, 94);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.no);
             this.Controls.Add(this.si);

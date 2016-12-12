@@ -19,16 +19,16 @@ namespace ClinicaFrba.Pedir_Turno
         {
             InitializeComponent();
 
-            cboEspecialidades_Cagar();
+            cboEspecialidades_Cargar();
         }
 
-        private void cboEspecialidades_Cagar()
+        private void cboEspecialidades_Cargar()
         {
             using (EspecialidadDAO dao = new EspecialidadDAO())
             {
                 List<Especialidad> especialidades = dao.getEspecialidades();
                 cboEspecialidades.Items.Clear();
-                cboEspecialidades.Items.Add("-- Seleccione una especialidad --");
+                cboEspecialidades.Items.Add("-- Elija una especialidad --");
                 foreach (Especialidad especialidad in especialidades)
                 {
                     cboEspecialidades.Items.Add(especialidad);
@@ -48,7 +48,7 @@ namespace ClinicaFrba.Pedir_Turno
 
             Especialidad especialidad = (Especialidad)cboEspecialidades.SelectedItem;
             cboProfesionales.Enabled = true;
-            cboProfesionales.Items.Add("-- Seleccione un profesional --");
+            cboProfesionales.Items.Add("-- Elija un profesional --");
 
             using (ProfesionalDAO dao = new ProfesionalDAO())
             {
@@ -75,15 +75,21 @@ namespace ClinicaFrba.Pedir_Turno
             Especialidad especialidad = (Especialidad)cboEspecialidades.SelectedItem;
             Profesional profesional = (Profesional)cboProfesionales.SelectedItem;
             cboFechasDisponibles.Enabled = true;
-            cboFechasDisponibles.Items.Add("-- Seleccione una fecha --");
+            cboFechasDisponibles.Items.Add("-- Elija una fecha --");
 
             using (ProfesionalDAO dao = new ProfesionalDAO())
             {
                 List<String> fechas = dao.getFechasDisponibles(profesional.codigo, especialidad.EspecialidadId);
-
+                
                 foreach (String fecha in fechas)
                 {
-                    cboFechasDisponibles.Items.Add(fecha);
+                    //Se filtra por fecha de sistema, no se ofrecen las opciones que sean anteriores.
+                    DateTime datefecha = DateTime.Parse(fecha);
+                    DateTime fechaActual = FechaSistema.getFechaActual();
+                    if ( DateTime.Compare(datefecha, fechaActual) >= 0)
+                    {
+                        cboFechasDisponibles.Items.Add(fecha);
+                    }
                 }
                 cboFechasDisponibles.SelectedIndex = 0;
             }
@@ -102,7 +108,7 @@ namespace ClinicaFrba.Pedir_Turno
             Profesional profesional = (Profesional)cboProfesionales.SelectedItem;
             String fecha = (String)cboFechasDisponibles.SelectedItem;
             cboHorariosDisponibles.Enabled = true;
-            cboHorariosDisponibles.Items.Add("-- Seleccione horario --");
+            cboHorariosDisponibles.Items.Add("-- Elija horario --");
 
             using (ProfesionalDAO dao = new ProfesionalDAO())
             {
@@ -151,25 +157,25 @@ namespace ClinicaFrba.Pedir_Turno
 
             if (cboEspecialidades.SelectedIndex <= 0)
             {
-                MessageBox.Show("Debe seleccionar una especialidad");
+                MessageBox.Show("Debe elegir una especialidad");
                 return false;
             }
 
             if (cboProfesionales.SelectedIndex <= 0)
             {
-                MessageBox.Show("Debe seleccionar un profesional");
+                MessageBox.Show("Debe elegir un profesional");
                 return false;
             }
 
             if (cboFechasDisponibles.SelectedIndex <= 0)
             {
-                MessageBox.Show("Debe seleccionar una fecha válida");
+                MessageBox.Show("Debe elegir una fecha válida");
                 return false;
             }
 
             if (cboHorariosDisponibles.SelectedIndex <= 0)
             {
-                MessageBox.Show("Debe seleccionar una hora válida");
+                MessageBox.Show("Debe elegir una hora válida");
                 return false;
             }
 

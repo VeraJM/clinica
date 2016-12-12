@@ -39,7 +39,8 @@
             // 
             // estadCancelaciones
             // 
-            this.estadCancelaciones.Location = new System.Drawing.Point(6, 24);
+            this.estadCancelaciones.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.estadCancelaciones.Location = new System.Drawing.Point(39, 38);
             this.estadCancelaciones.Name = "estadCancelaciones";
             this.estadCancelaciones.Size = new System.Drawing.Size(266, 45);
             this.estadCancelaciones.TabIndex = 0;
@@ -49,41 +50,45 @@
             // 
             // profMasConsultados
             // 
-            this.profMasConsultados.Location = new System.Drawing.Point(6, 75);
+            this.profMasConsultados.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.profMasConsultados.Location = new System.Drawing.Point(39, 89);
             this.profMasConsultados.Name = "profMasConsultados";
             this.profMasConsultados.Size = new System.Drawing.Size(266, 37);
             this.profMasConsultados.TabIndex = 1;
-            this.profMasConsultados.Text = "Estadistica profesionales mas consultados";
+            this.profMasConsultados.Text = "Profesionales mas consultados";
             this.profMasConsultados.UseVisualStyleBackColor = true;
             this.profMasConsultados.Click += new System.EventHandler(this.profMasConsultados_Click);
             // 
             // profMenosHoras
             // 
-            this.profMenosHoras.Location = new System.Drawing.Point(6, 118);
+            this.profMenosHoras.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.profMenosHoras.Location = new System.Drawing.Point(39, 132);
             this.profMenosHoras.Name = "profMenosHoras";
             this.profMenosHoras.Size = new System.Drawing.Size(266, 44);
             this.profMenosHoras.TabIndex = 2;
-            this.profMenosHoras.Text = "Estadistica profesionales con menos horas trabajadas";
+            this.profMenosHoras.Text = "Profesionales con menos horas trabajadas";
             this.profMenosHoras.UseVisualStyleBackColor = true;
             this.profMenosHoras.Click += new System.EventHandler(this.profMenosHoras_Click);
             // 
             // afilMasBonos
             // 
-            this.afilMasBonos.Location = new System.Drawing.Point(6, 168);
+            this.afilMasBonos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.afilMasBonos.Location = new System.Drawing.Point(39, 182);
             this.afilMasBonos.Name = "afilMasBonos";
             this.afilMasBonos.Size = new System.Drawing.Size(266, 44);
             this.afilMasBonos.TabIndex = 3;
-            this.afilMasBonos.Text = "Estadistica afiliados con mayor cantidad de bonos comprados";
+            this.afilMasBonos.Text = "Afiliados con mayor cantidad de bonos comprados";
             this.afilMasBonos.UseVisualStyleBackColor = true;
             this.afilMasBonos.Click += new System.EventHandler(this.afilMasBonos_Click);
             // 
             // especMedBonos
             // 
-            this.especMedBonos.Location = new System.Drawing.Point(6, 218);
+            this.especMedBonos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.especMedBonos.Location = new System.Drawing.Point(39, 232);
             this.especMedBonos.Name = "especMedBonos";
             this.especMedBonos.Size = new System.Drawing.Size(266, 44);
             this.especMedBonos.TabIndex = 4;
-            this.especMedBonos.Text = "Estadistica de especialidades de medico con mas bonos de consulta utilizados";
+            this.especMedBonos.Text = "Especialidades con mas bonos utilizados";
             this.especMedBonos.UseVisualStyleBackColor = true;
             this.especMedBonos.Click += new System.EventHandler(this.especMedBonos_Click);
             // 
@@ -94,9 +99,10 @@
             this.groupBox1.Controls.Add(this.afilMasBonos);
             this.groupBox1.Controls.Add(this.profMasConsultados);
             this.groupBox1.Controls.Add(this.profMenosHoras);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(24, 22);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(294, 279);
+            this.groupBox1.Size = new System.Drawing.Size(355, 308);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seleccionar estadistica";
@@ -105,7 +111,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(342, 335);
+            this.ClientSize = new System.Drawing.Size(401, 353);
             this.Controls.Add(this.groupBox1);
             this.Name = "SeleccionListado";
             this.Text = "Listados de estadistica";

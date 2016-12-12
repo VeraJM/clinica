@@ -36,8 +36,8 @@
             // 
             // Alta_Rol
             // 
-            this.Alta_Rol.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Alta_Rol.Location = new System.Drawing.Point(68, 52);
+            this.Alta_Rol.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Alta_Rol.Location = new System.Drawing.Point(12, 69);
             this.Alta_Rol.Name = "Alta_Rol";
             this.Alta_Rol.Size = new System.Drawing.Size(75, 23);
             this.Alta_Rol.TabIndex = 1;
@@ -47,8 +47,8 @@
             // 
             // Modificacion_Rol
             // 
-            this.Modificacion_Rol.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Modificacion_Rol.Location = new System.Drawing.Point(68, 98);
+            this.Modificacion_Rol.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Modificacion_Rol.Location = new System.Drawing.Point(109, 69);
             this.Modificacion_Rol.Name = "Modificacion_Rol";
             this.Modificacion_Rol.Size = new System.Drawing.Size(75, 23);
             this.Modificacion_Rol.TabIndex = 2;
@@ -58,8 +58,8 @@
             // 
             // button3
             // 
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(68, 140);
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Location = new System.Drawing.Point(201, 69);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 3;
@@ -70,18 +70,18 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 26);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(54, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(185, 13);
+            this.label1.Size = new System.Drawing.Size(185, 18);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Realizar una accion para un rol";
+            this.label1.Text = "Elija una acción para un rol";
             // 
             // ABMRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(225, 175);
+            this.ClientSize = new System.Drawing.Size(311, 145);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.Modificacion_Rol);

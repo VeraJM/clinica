@@ -13,9 +13,9 @@ namespace ClinicaFrba.DAO
     {
         public void EjecutarLogIn(string usuario, string password)
         {
-            SqlCommand comando = armarSP("LOGIN_USUARIO");
-            agregarParametroStringSP(comando, "@username", usuario);
-            agregarParametroStringSP(comando, "@password", password);
+            SqlCommand comando = SP("LOGIN_USUARIO");
+            addParametroStringSP(comando, "@username", usuario);
+            addParametroStringSP(comando, "@password", password);
             comando.ExecuteNonQuery();
         }
 
@@ -23,10 +23,10 @@ namespace ClinicaFrba.DAO
         {
             try
             {
-                SqlCommand comando = armarSP("ALTA_USUARIO");
-                agregarParametroStringSP(comando, "@NOMBRE_USUARIO", usuario.Username);
-                agregarParametroStringSP(comando, "@PASSWORD", usuario.Password);
-                agregarParametroStringSP(comando, "@ROL", rol);
+                SqlCommand comando = SP("ALTA_USUARIO");
+                addParametroStringSP(comando, "@NOMBRE_USUARIO", usuario.Username);
+                addParametroStringSP(comando, "@PASSWORD", usuario.Password);
+                addParametroStringSP(comando, "@ROL", rol);
                 comando.Parameters.Add("@CODIGO_USUARIO", SqlDbType.Int).Direction = ParameterDirection.Output;
                 comando.ExecuteNonQuery();
                 usuario.UsuarioId = Convert.ToInt32(comando.Parameters["@CODIGO_USUARIO"].Value);
@@ -47,7 +47,7 @@ namespace ClinicaFrba.DAO
         public List<Rol> getRolesUsuario(string usuario)
         {
             SqlCommand func = armarFuncionTabla("OBTENER_ROLES");
-            func = agregarStringParamFuncion(func, usuario);
+            func = addStringParamFuncion(func, usuario);
             List<string> lista = ejecutarFuncionTablaTexto(func);
 
             List<Rol> roles = new List<Rol>();
@@ -64,7 +64,7 @@ namespace ClinicaFrba.DAO
         {
 
             SqlCommand func = armarFuncionTabla("CARGAR_DATOS_USUARIO");
-            func = agregarStringParamFuncion(func, username);
+            func = addStringParamFuncion(func, username);
             SqlDataReader reader;
             comando.CommandText = comando.CommandText + ")";
 

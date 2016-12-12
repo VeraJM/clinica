@@ -73,22 +73,22 @@ namespace ClinicaFrba.DAO
         }
         public void insertarAfiliado(Afiliado afiliado)
         {
-            SqlCommand comando = armarSP("ALTA_AFILIADO");
-            agregarParametroStringSP(comando, "@NOMBRE", afiliado.detalle.Nombre);
-            agregarParametroStringSP(comando, "@APELLIDO", afiliado.detalle.Apellido);
-            agregarParametroStringSP(comando, "@TIPO_DOC", afiliado.detalle.TipoDoc);
-            agregarParametroStringSP(comando, "@NRO_DOC", afiliado.detalle.NroDoc);
-            agregarParametroStringSP(comando, "@DIRECCION", afiliado.detalle.Direccion);
-            agregarParametroStringSP(comando, "@TELEFONO", afiliado.detalle.Telefono);
-            agregarParametroStringSP(comando, "@MAIL", afiliado.detalle.Mail);
-            agregarParametroDatetimeSP(comando, "@FECHA_NACIMIENTO", afiliado.detalle.FechaNacimiento);
-            agregarParametroStringSP(comando, "@SEXO", afiliado.detalle.Sexo);
-            agregarParametroIntSP(comando, "@COD_ESTADO_CIVIL", afiliado.estadoCivil.Codigo);
-            agregarParametroIntSP(comando, "@CANT_HIJOS_FAMILIARES", afiliado.cantidad_hijos);
-            agregarParametroIntSP(comando, "@COD_PLAN", afiliado.plan.PlanId);
-            agregarParametroIntSP(comando, "@COD_USUARIO", afiliado.usuario.UsuarioId);
-            agregarParametroIntSP(comando, "@NUMERO_AFILIADO", afiliado.numero);
-            agregarParametroIntSP(comando, "@NUMERO_FAMILIA", afiliado.grupoFamiliar);
+            SqlCommand comando = SP("ALTA_AFILIADO");
+            addParametroStringSP(comando, "@NOMBRE", afiliado.detalle.Nombre);
+            addParametroStringSP(comando, "@APELLIDO", afiliado.detalle.Apellido);
+            addParametroStringSP(comando, "@TIPO_DOC", afiliado.detalle.TipoDoc);
+            addParametroStringSP(comando, "@NRO_DOC", afiliado.detalle.NroDoc);
+            addParametroStringSP(comando, "@DIRECCION", afiliado.detalle.Direccion);
+            addParametroStringSP(comando, "@TELEFONO", afiliado.detalle.Telefono);
+            addParametroStringSP(comando, "@MAIL", afiliado.detalle.Mail);
+            addParametroDatetimeSP(comando, "@FECHA_NACIMIENTO", afiliado.detalle.FechaNacimiento);
+            addParametroStringSP(comando, "@SEXO", afiliado.detalle.Sexo);
+            addParametroIntSP(comando, "@COD_ESTADO_CIVIL", afiliado.estadoCivil.Codigo);
+            addParametroIntSP(comando, "@CANT_HIJOS_FAMILIARES", afiliado.cantidad_hijos);
+            addParametroIntSP(comando, "@COD_PLAN", afiliado.plan.PlanId);
+            addParametroIntSP(comando, "@COD_USUARIO", afiliado.usuario.UsuarioId);
+            addParametroIntSP(comando, "@NUMERO_AFILIADO", afiliado.numero);
+            addParametroIntSP(comando, "@NUMERO_FAMILIA", afiliado.grupoFamiliar);
             comando.Parameters.Add("@NUEVO_CODIGO_USUARIO", SqlDbType.Int).Direction = ParameterDirection.Output;
             comando.Parameters.Add("@NUEVO_CODIGO_FAMILIA", SqlDbType.Int).Direction = ParameterDirection.Output;
             comando.ExecuteNonQuery();
@@ -99,17 +99,17 @@ namespace ClinicaFrba.DAO
         public void ModificarAfiliado(Afiliado afiliado, string motivo, bool cambioPlan, int codigoPlanViejo)
         {
             int cambio;
-            SqlCommand comando = armarSP("ACTUALIZAR_AFILIADO");
-            agregarParametroIntSP(comando, "@COD_DETALLE", afiliado.detalle.DetallePersonaId);
-            agregarParametroIntSP(comando, "@COD_AFILIADO", afiliado.codigo);
-            agregarParametroIntSP(comando, "@COD_ESTADO_CIVIL", afiliado.estadoCivil.Codigo);
-            agregarParametroIntSP(comando, "@CANT_HIJOS_FAMILIARES", afiliado.cantidad_hijos);
-            agregarParametroIntSP(comando, "@COD_PLAN", afiliado.plan.PlanId);
-            agregarParametroStringSP(comando, "@DIRECCION", afiliado.detalle.Direccion);
-            agregarParametroStringSP(comando, "@TELEFONO", afiliado.detalle.Telefono);
-            agregarParametroStringSP(comando, "@MAIL", afiliado.detalle.Mail);
-            agregarParametroStringSP(comando, "@SEXO", afiliado.detalle.Sexo);
-            agregarParametroStringSP(comando, "@MOTIVO", motivo);
+            SqlCommand comando = SP("ACTUALIZAR_AFILIADO");
+            addParametroIntSP(comando, "@COD_DETALLE", afiliado.detalle.DetallePersonaId);
+            addParametroIntSP(comando, "@COD_AFILIADO", afiliado.codigo);
+            addParametroIntSP(comando, "@COD_ESTADO_CIVIL", afiliado.estadoCivil.Codigo);
+            addParametroIntSP(comando, "@CANT_HIJOS_FAMILIARES", afiliado.cantidad_hijos);
+            addParametroIntSP(comando, "@COD_PLAN", afiliado.plan.PlanId);
+            addParametroStringSP(comando, "@DIRECCION", afiliado.detalle.Direccion);
+            addParametroStringSP(comando, "@TELEFONO", afiliado.detalle.Telefono);
+            addParametroStringSP(comando, "@MAIL", afiliado.detalle.Mail);
+            addParametroStringSP(comando, "@SEXO", afiliado.detalle.Sexo);
+            addParametroStringSP(comando, "@MOTIVO", motivo);
             if (cambioPlan)
             {
                 cambio = 1;
@@ -118,15 +118,15 @@ namespace ClinicaFrba.DAO
             {
                 cambio = 0;
             }
-            agregarParametroIntSP(comando, "@MODIFICACION_PLAN", cambio);
-            agregarParametroIntSP(comando, "@COD_PLAN_VIEJO", codigoPlanViejo);
+            addParametroIntSP(comando, "@MODIFICACION_PLAN", cambio);
+            addParametroIntSP(comando, "@COD_PLAN_VIEJO", codigoPlanViejo);
             comando.ExecuteNonQuery();
         }
 
         public void darBajaAfiliado(int codigo)
         {
-            SqlCommand comando = armarSP("DAR_BAJA_AFILIADO");
-            agregarParametroIntSP(comando, "@AFILIADO_COD", codigo);
+            SqlCommand comando = SP("DAR_BAJA_AFILIADO");
+            addParametroIntSP(comando, "@AFILIADO_COD", codigo);
             comando.ExecuteNonQuery();
         }
 
@@ -182,7 +182,7 @@ namespace ClinicaFrba.DAO
         public List<Afiliado> getAfiliadosRelacionados(int afiliadoId)
         {
             SqlCommand func = armarFuncionTabla("OBTENER_AFILIADOS_RELACIONADOS");
-            func = agregarParamFuncion(func, afiliadoId.ToString());
+            func = addParamFuncion(func, afiliadoId.ToString());
 
             List<Afiliado> lista = new List<Afiliado>();
             SqlDataReader reader;
