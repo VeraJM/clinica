@@ -1,4 +1,4 @@
-1- ROL:
+﻿1- ROL:
   - Lo mismo que el tp pasado.
   - 3 roles: Afiliado, Administrativo, Profesional.
   - Agregar y eliminar funcionalidades.
@@ -211,6 +211,7 @@ Compra_Bono_Fecha
 Bono_Consulta_Fecha_Impresion
 Bono_Consulta_Numero
 
+-------------------------------------------------------------------------
 Migracion:
 Falta:
 agenda
@@ -221,3 +222,48 @@ usuario
 cambio de plan
 turno
 profesional especialidad
+
+-------------------------------------------------------------------------
+tp agustin:
+Usuario tiene tipo
+Usuario_Rol
+Persona como entidad comun entre afiliado y profesional
+Persona tiene usuario. Parece que esa es la forma en que se vinculan un afi/pro con su persona.
+Afiliado tiene cantidad de hijos, habilitado, y usuario
+Profesional tiene usuario
+
+Diagnostico tiene la consulta en la que fue hecho, turno, y descripcion.
+Sintomas y diagnostico separados. Y Sintomas_Diagnostico
+Turno tiene profesional, afiliado
+
+copiado:
+turno
+
+
+Consultas tiene turno y bono
+
+
+
+-------------------------------------------------------------------------
+
+Cosas que faltan:
+
+insertar admin y pro en UsuarioRol
+
+arreglar por el "nro de afiliado" SP comprar bono, SP alta afiliado
+
+bonos: problema con cual es el comprador y cual el consumidor, mismo problema que con el grupo familiar.
+function obtener_bonos_afiliados, SP REGISTRAR LLEGADA AFILIADO
+
+cosas para cambiar porque estan muy iguales:
+Dao de estadisticas
+
+
+Hechas:
+hashear las passwords
+
+using ClinicaFrba.DAO;
+using ClinicaFrba.Model;
+using ClinicaFrba.Utils;
+
+user afiliado: 72241777

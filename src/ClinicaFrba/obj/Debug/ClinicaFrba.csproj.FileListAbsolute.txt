@@ -1,0 +1,10 @@
+C:\Users\Jonathan\workspace\clinica\src\ClinicaFrba\bin\Debug\ClinicaFrba.exe.config
+C:\Users\Jonathan\workspace\clinica\src\ClinicaFrba\bin\Debug\ClinicaFrba.exe
+C:\Users\Jonathan\workspace\clinica\src\ClinicaFrba\bin\Debug\ClinicaFrba.pdb
+C:\Users\Jonathan\workspace\clinica\src\ClinicaFrba\obj\Debug\ClinicaFrba.csprojResolveAssemblyReference.cache
+C:\Users\Jonathan\workspace\clinica\src\ClinicaFrba\obj\Debug\ClinicaFrba.Properties.Resources.resources
+C:\Users\Jonathan\workspace\clinica\src\ClinicaFrba\obj\Debug\ClinicaFrba.csproj.GenerateResource.Cache
+C:\Users\Jonathan\workspace\clinica\src\ClinicaFrba\obj\Debug\ClinicaFrba.exe
+C:\Users\Jonathan\workspace\clinica\src\ClinicaFrba\obj\Debug\ClinicaFrba.pdb
+C:\Users\Jonathan\workspace\clinica\src\ClinicaFrba\obj\Debug\ClinicaFrba.Listados.SeleccionListado.resources
+C:\Users\Jonathan\workspace\clinica\src\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.AltaAfiliado.resources

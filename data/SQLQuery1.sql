@@ -446,7 +446,9 @@ WHERE idRol = 1
 ORDER BY idRol;
 
 SELECT * FROM HELLFISH.Afiliado;
+SELECT * FROM HAKUNADATATA.Afiliados;
 SELECT * FROM HELLFISH.Profesional;
+SELECT * FROM HAKUNADATATA.Profesionales;
 SELECT * FROM HELLFISH.PlanMedico;
 
 sELECT * FROM gd_esquema.Maestra
@@ -508,7 +510,15 @@ select distinct(Bono_Consulta_Numero), Bono_Consulta_Fecha_Impresion, A.id, Plan
 
 select * from HELLFISH.VentaDeBonos
 ORDER BY idAfiliadoComprador,fechaDeCompra;
+
+
 select * from HELLFISH.Bono;
+select * from HAKUNADATATA.BONOS;
+
+select * from HELLFISH.Bono
+order by id desc;
+select * from HELLFISH.VentaDeBonos
+order by id desc;
 select * from hellfish.Afiliado where id <>grupoFamiliar;
 SELECT Compra_Bono_Fecha,(SELECT id from hellfish.Afiliado where numeroDocumento = Paciente_Dni),Plan_Med_Codigo,1,Plan_Med_Precio_Bono_Consulta from gd_esquema.Maestra where Compra_Bono_Fecha is not null
 ------------------------------------------------------------------------
@@ -527,3 +537,51 @@ WHERE Turno_Numero IS NOT NULL;
 
 SELECT * FROM gd_esquema.Maestra WHERE Turno_Numero IS NULL AND Compra_Bono_Fecha IS NULL
 
+select * from HELLFISH.Especialidad;
+------------------------------------------------------------------------
+/* CONSULTAS */
+
+select * from hakunadatata.consultas_medicas;
+
+------------------------------------------------------------------------
+/* ROLES */
+select * from HAKUNADATATA.Usuarios
+order by USUARIO_COD desc;
+select * from HAKUNADATATA.Afiliados
+order by AFIL_COD desc;
+select * from HAKUNADATATA.Usuarios
+
+select * from HELLFISH.UsuarioRol
+select * from HELLFISH.UsuarioRol where idRol = 2;
+select * from HELLFISH.Rol
+select * from HELLFISH.RolFuncionalidad
+select * from HELLFISH.Usuario
+
+select * from HELLFISH.Afiliado
+select * from HELLFISH.GrupoFamiliar
+select * from HELLFISH.Afiliado
+order by id desc;
+
+
+select * from HELLFISH.Usuario
+order by id desc;
+
+SELECT * from hellfish.PlanMedico;
+
+select * from[GD2C2016].[HELLFISH].[OBTENER_PLANES] ()
+
+
+select * from HELLFISH.Profesional
+select * from hellfish.ProfesionalEspecialidad PE join HELLFISH.Especialidad E on e.id=pe.especialidad
+order by idProfesional;
+
+select * from HAKUNADATATA.Profesionales
+
+select * from HELLFISH.AgendaProfesional
+select * from HAKUNADATATA.AGENDAS where AGENDA_DISPONIBLE = 1
+
+DROP TABLE HELLFISH.GrupoFamiliar
+GO
+
+drop TABLE HELLFISH.Cancelacion
+GO
