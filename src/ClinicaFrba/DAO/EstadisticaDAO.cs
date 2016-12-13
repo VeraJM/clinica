@@ -92,7 +92,7 @@ namespace ClinicaFrba.DAO
             tabla.Columns.Add("Codigo de profesional", typeof(Int32));
             tabla.Columns.Add("Nombre", typeof(string));
             tabla.Columns.Add("Apellido", typeof(string));
-            tabla.Columns.Add("Numero de matricula", typeof(Int32));
+            tabla.Columns.Add("Numero de matricula", typeof(String));
             tabla.Columns.Add("Especialidad", typeof(string));
             tabla.Columns.Add("Numero de consultas", typeof(Int32));
             using (comando)
@@ -104,7 +104,7 @@ namespace ClinicaFrba.DAO
                     fila["Codigo de profesional"] = (Int32)reader.GetValue(0);
                     fila["Nombre"] = (String)reader.GetValue(1);
                     fila["Apellido"] = (String)reader.GetValue(2);
-                    fila["Numero de matricula"] = (Int32)reader.GetValue(3);
+                    fila["Numero de matricula"] = (String)reader.GetValue(3);
                     fila["Especialidad"] = (String)reader.GetValue(4);
                     fila["Numero de consultas"] = (Int32)reader.GetValue(5);
                     tabla.Rows.Add(fila);
@@ -139,7 +139,7 @@ namespace ClinicaFrba.DAO
             tabla.Columns.Add("Codigo de profesional", typeof(Int32));
             tabla.Columns.Add("Nombre", typeof(string));
             tabla.Columns.Add("Apellido", typeof(string));
-            tabla.Columns.Add("Numero de matricula", typeof(Int32));
+            tabla.Columns.Add("Numero de matricula", typeof(String));
             tabla.Columns.Add("Especialidad", typeof(string));
             tabla.Columns.Add("Horas trabajadas", typeof(Int32));
             using (comando)
@@ -151,7 +151,7 @@ namespace ClinicaFrba.DAO
                     fila["Codigo de profesional"] = (Int32)reader.GetValue(0);
                     fila["Nombre"] = (String)reader.GetValue(1);
                     fila["Apellido"] = (String)reader.GetValue(2);
-                    fila["Numero de matricula"] = (Int32)reader.GetValue(3);
+                    fila["Numero de matricula"] = (String)reader.GetValue(3);
                     fila["Especialidad"] = (String)reader.GetValue(4);
                     fila["Horas trabajadas"] = (Int32)reader.GetValue(5);
                     tabla.Rows.Add(fila);

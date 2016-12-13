@@ -78,7 +78,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "ModificacionRol";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Modificacion_Rol";
+            this.Text = "Modificacion de Rol";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
