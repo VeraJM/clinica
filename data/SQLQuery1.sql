@@ -575,7 +575,7 @@ select * from HELLFISH.Profesional
 select * from hellfish.ProfesionalEspecialidad PE join HELLFISH.Especialidad E on e.id=pe.especialidad
 order by idProfesional;
 
-select * from HAKUNADATATA.Profesionales
+select * from HAKUNADATATA.AGENDAS
 
 select * from HELLFISH.AgendaProfesional
 order by id desc;
@@ -592,7 +592,7 @@ GO
 drop TABLE HELLFISH.Cancelacion
 GO
 
-drop procedure CREATE PROCEDURE HELLFISH.SOLICITAR_TURNO
+drop procedure HELLFISH.SOLICITAR_TURNO
 
 /*
 exec hellfish.REGISTRAR_AGENDA_PROFESIONAL

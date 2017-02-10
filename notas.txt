@@ -243,16 +243,15 @@ turno
 Consultas tiene turno y bono
 
 
-
+Agenda disponible = 1
 -------------------------------------------------------------------------
 
 Cosas que faltan:
 
 insertar admin y pro en UsuarioRol
 
-arreglar por el "nro de afiliado" SP comprar bono, SP alta afiliado
 
-bonos: problema con cual es el comprador y cual el consumidor, mismo problema que con el grupo familiar.
+
 function obtener_bonos_afiliados, SP REGISTRAR LLEGADA AFILIADO
 
 cosas para cambiar porque estan muy iguales:
@@ -261,9 +260,12 @@ Dao de estadisticas
 
 Hechas:
 hashear las passwords
+arreglar por el "nro de afiliado" SP comprar bono, SP alta afiliado
+bonos: problema con cual es el comprador y cual el consumidor, mismo problema que con el grupo familiar.
 
 using ClinicaFrba.DAO;
 using ClinicaFrba.Model;
 using ClinicaFrba.Utils;
 
 user afiliado: 72241777
+28072053

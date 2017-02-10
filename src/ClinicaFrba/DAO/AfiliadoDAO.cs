@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
 using ClinicaFrba.Model;
+using System.Windows.Forms;
 
 namespace ClinicaFrba.DAO
 {
@@ -91,9 +92,11 @@ namespace ClinicaFrba.DAO
             addParametroIntSP(comando, "@NUMERO_FAMILIA", afiliado.grupoFamiliar);
             comando.Parameters.Add("@NUEVO_CODIGO_USUARIO", SqlDbType.Int).Direction = ParameterDirection.Output;
             comando.Parameters.Add("@NUEVO_CODIGO_FAMILIA", SqlDbType.Int).Direction = ParameterDirection.Output;
+
             comando.ExecuteNonQuery();
             afiliado.codigo = Convert.ToInt32(comando.Parameters["@NUEVO_CODIGO_USUARIO"].Value);
             afiliado.grupoFamiliar = Convert.ToInt32(comando.Parameters["@NUEVO_CODIGO_FAMILIA"].Value);
+
         }
 
         public void ModificarAfiliado(Afiliado afiliado, string motivo, bool cambioPlan, int codigoPlanViejo)

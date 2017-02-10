@@ -594,7 +594,7 @@ GO
 
 CREATE TABLE HELLFISH.Bono (
 	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	idGrupoFamiliar int, /* TODO : revisar */
+	idGrupoFamiliar int, 
 	idAfiliadoConsumidor int,
 	planMedico int NOT NULL,
 	nroConsulta int,
@@ -603,11 +603,11 @@ CREATE TABLE HELLFISH.Bono (
 )
 GO
 
-INSERT INTO HELLFISH.BONO (planMedico,UTILIZADO,nroConsulta,idAfiliadoConsumidor)
-	SELECT DISTINCT Plan_Med_Codigo,1,Bono_Consulta_Numero,AF.id
-		FROM gd_esquema.Maestra, HELLFISH.AFILIADO AF 
+INSERT INTO HELLFISH.BONO (planMedico,UTILIZADO,nroConsulta,idAfiliadoConsumidor,idGrupoFamiliar)
+	(SELECT DISTINCT Plan_Med_Codigo,1,Bono_Consulta_Numero,AF.id, G.id
+		FROM gd_esquema.Maestra, HELLFISH.AFILIADO AF join HELLFISH.GrupoFamiliar G on AF.id = G.nroAfiliadoBase
 		WHERE Bono_Consulta_Numero is not null
-		and Paciente_Dni = af.numeroDocumento;
+		and Paciente_Dni = af.numeroDocumento);
 
 ------------------------------------------------------------------------
 
@@ -658,7 +658,7 @@ INSERT INTO HELLFISH.VentaDeBonos (idAfiliadoComprador,fechaDeCompra,cantidadBon
 		WHERE M.Compra_Bono_Fecha is not null
 		AND Paciente_Dni = af.numeroDocumento
 		AND AF.id=B.idAfiliadoConsumidor
-		AND B.nroConsulta = M.Bono_Consulta_Numero;	
+		AND B.nroConsulta = M.Bono_Consulta_Numero;
 
 ------------------------------------------------------------------------
 
@@ -793,7 +793,7 @@ DELETE FROM HELLFISH.RolFuncionalidad WHERE idRol = @codigoRol;
 end;
 go
 ------------------------------------------------------------------------------
-CREATE PROCEDURE HELLFISH.BAJA_descripcion
+CREATE PROCEDURE HELLFISH.BAJA_ROL_NOMBRE
 (@NOMBRE_ROL nvarchar(255))
 as
 DECLARE @codigo numeric(18,0)
@@ -967,24 +967,33 @@ BEGIN
 DECLARE
 @afiliado_codigo INT,
 @nuevo_numero_afiliado INT,
-@familia_codigo INT;
+@familia_codigo INT,
+@err_msg VARCHAR(250);
 
-BEGIN TRANSACTION
-	INSERT INTO HELLFISH.AFILIADO (nombre,apellido,tipoDocumento,numeroDocumento,direccion,telefono,email,fechaNacimiento,sexo,
-	idEstadoCivil,cantHijosFamiliares,planMedico,idUsuario,nroAfiliadoIntegrante) 
-	VALUES (@NOMBRE,@APELLIDO,@TIPO_DOC,@NRO_DOC,@DIRECCION,@TELEFONO,@MAIL,@FECHA_NACIMIENTO,@SEXO,
-	@COD_ESTADO_CIVIL,@CANT_HIJOS_FAMILIARES,@COD_PLAN,@COD_USUARIO,@NUMERO_AFILIADO);
-	SET @afiliado_codigo = SCOPE_IDENTITY();
-	IF(@NUMERO_FAMILIA = 0)
+IF(EXISTS(SELECT 1 FROM HELLFISH.AFILIADO WHERE numeroDocumento = @NRO_DOC AND tipoDocumento = @TIPO_DOC))
 		BEGIN
-			insert into HELLFISH.GrupoFamiliar(nroAfiliadoBase) VALUES (@afiliado_codigo)
-			SET @NUMERO_FAMILIA = SCOPE_IDENTITY();
+			set @err_msg = 'Ya existe un afiliado con ese tipo y numero de documento'
+			RAISERROR(@err_msg,14,1)
 		END
+		ELSE
+			BEGIN
+				BEGIN TRANSACTION
+					INSERT INTO HELLFISH.AFILIADO (nombre,apellido,tipoDocumento,numeroDocumento,direccion,telefono,email,fechaNacimiento,sexo,
+					idEstadoCivil,cantHijosFamiliares,planMedico,idUsuario,nroAfiliadoIntegrante) 
+					VALUES (@NOMBRE,@APELLIDO,@TIPO_DOC,@NRO_DOC,@DIRECCION,@TELEFONO,@MAIL,@FECHA_NACIMIENTO,@SEXO,
+					@COD_ESTADO_CIVIL,@CANT_HIJOS_FAMILIARES,@COD_PLAN,@COD_USUARIO,@NUMERO_AFILIADO);
+					SET @afiliado_codigo = SCOPE_IDENTITY();
+					IF(@NUMERO_FAMILIA = 0)
+						BEGIN
+							insert into HELLFISH.GrupoFamiliar(nroAfiliadoBase) VALUES (@afiliado_codigo)
+							SET @NUMERO_FAMILIA = SCOPE_IDENTITY();
+						END
 
-	UPDATE HELLFISH.AFILIADO SET grupoFamiliar = @NUMERO_FAMILIA where id = @afiliado_codigo;
-	SET @NUEVO_CODIGO_USUARIO = @afiliado_codigo;
-	SET @NUEVO_CODIGO_FAMILIA = @NUMERO_FAMILIA;
-COMMIT TRANSACTION;
+					UPDATE HELLFISH.AFILIADO SET grupoFamiliar = @NUMERO_FAMILIA where id = @afiliado_codigo;
+					SET @NUEVO_CODIGO_USUARIO = @afiliado_codigo;
+					SET @NUEVO_CODIGO_FAMILIA = @NUMERO_FAMILIA;
+				COMMIT TRANSACTION;
+			END
 END
 GO
 -------------------------------------------------------------------------------
@@ -1379,13 +1388,10 @@ AS
 		JOIN HELLFISH.PROFESIONAL P ON A.idProfesional = P.id
 		JOIN HELLFISH.ESPECIALIDAD E ON E.id=A.idEspecialidad
 		JOIN HELLFISH.TURNOS T ON T.fecha=A.fecha
-		JOIN HELLFISH.BONO B ON B.idAfiliadoConsumidor=T.idAfiliado /* TODO: este es el comprador */
-		WHERE
-		B.utilizado=1
-		AND YEAR(T.fecha) = @FILTRO_ANIO AND 
+		WHERE YEAR(T.fecha) = @FILTRO_ANIO AND 
 		MONTH(T.fecha) BETWEEN @MES_INICIAL AND @MES_FINAL
 		GROUP BY E.descripcion
-		ORDER BY COUNT(E.id) DESC
+		ORDER BY COUNT(T.id) DESC
 		)
 GO
 
